@@ -127,9 +127,32 @@ function App() {
     fetchGithubProjects();
   }, [personalInfo.githubUsername]);
 
-  const handleDownloadCV = () => {
-    // In a real application, this would trigger the download of an actual PDF
-    alert("PDF download functionality would be implemented here");
+  const handleDownloadCV = async () => {
+    try {
+      // Make an API call to the backend
+      const response = await fetch("http://localhost:3000/download-cv");
+
+      if (response.ok) {
+        // Convert the response to a blob
+        const blob = await response.blob();
+
+        // Create a link element to trigger the download
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "Pramuditha_Nadun_CV.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Clean up the URL object
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error("Failed to download the CV");
+      }
+    } catch (error) {
+      console.error("Error downloading CV:", error);
+    }
   };
 
   return (
