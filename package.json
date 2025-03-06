@@ -2,6 +2,7 @@
   "name": "pramuditha_cv",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://PramudithaN.github.io/pramuditha_cv",
   "dependencies": {
     "@octokit/rest": "^21.1.1",
     "@testing-library/dom": "^10.4.0",
@@ -20,6 +21,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -48,6 +51,7 @@
     "@types/prettier": "^2.7.3",
     "@types/stack-utils": "^2.0.3",
     "autoprefixer": "^10.4.20",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.3.3"
   }
