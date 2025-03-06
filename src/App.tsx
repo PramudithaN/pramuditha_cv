@@ -1,78 +1,91 @@
-import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Download, ExternalLink, Star, GitFork } from 'lucide-react';
-import { Octokit } from '@octokit/rest';
-
+import React, { useState, useEffect } from "react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Download,
+  ExternalLink,
+  Star,
+  GitFork,
+} from "lucide-react";
+import { Octokit } from "@octokit/rest";
+import "./index.css"; // Import the CSS file
 
 function App() {
   const [githubProjects, setGithubProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Replace these with your actual details
   const personalInfo = {
-    name: "John Doe",
-    title: "Senior Software Engineer",
-    intro: "Passionate software engineer with 5+ years of experience in full-stack development. Specialized in React, TypeScript, and cloud technologies.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=faces&q=80",
-    email: "john.doe@email.com",
-    github: "github.com/johndoe",
-    githubUsername: "johndoe", // Add your GitHub username here
-    linkedin: "linkedin.com/in/johndoe"
+    name: "Pramuditha Nadun",
+    title: "Associate Software Engineer",
+    intro:
+      "I'm Pramuditha Nadun, a Software Engineering student with hands-on experience as an Associate Software Engineer. With a strong technical foundation and a passion for graphic designing, I'm always exploring innovative ways to solve problems and create impactful solutions.",
+    image:
+      "https://avatars.githubusercontent.com/u/79605208?v=4",
+    email: "pramudithanadun@gmail.com",
+    github: "github.com/PramudithaN",
+    githubUsername: "PramudithaN",
+    linkedin: "www.linkedin.com/in/pramuditha-nadun-612b1b204",
   };
 
   const education = [
     {
-      degree: "Master of Computer Science",
-      school: "University of Technology",
-      year: "2018-2020"
+      degree: "Bachelor of Software Engineering",
+      school: "Informatics Institute of Technology",
+      year: "Feb 2022 - Present",
     },
     {
-      degree: "Bachelor of Software Engineering",
-      school: "State University",
-      year: "2014-2018"
-    }
+      degree: "G.C.E Advanced Level",
+      school: "Mahinda College",
+      year: "2017 - 2019",
+    },
+    {
+      degree: "G.C.E Ordinary Level",
+      school: "Mahinda College",
+      year: "2010 - 2016",
+      grade: "A-8 B-1",
+    },
   ];
 
   const experience = [
     {
-      role: "Senior Software Engineer",
-      company: "Tech Solutions Inc.",
-      period: "2020-Present",
-      description: "Led development of enterprise-scale React applications, mentored junior developers."
+      role: "Associate Software Engineer",
+      company: "LOLC Technologies",
+      period: "Oct 2024 - Present",
+      description: "Working on software development in a hybrid environment.",
     },
     {
-      role: "Software Developer",
-      company: "Digital Innovations",
-      period: "2018-2020",
-      description: "Developed and maintained multiple web applications using React and Node.js."
-    }
+      role: "Trainee",
+      company: "LOLC Technologies",
+      period: "Mar 2022 - Oct 2024",
+      description:
+        "Completed a 2-year 8-month internship in software engineering.",
+    },
   ];
 
   const references = [
     {
       name: "Jane Smith",
       position: "CTO at Tech Solutions",
-      contact: "Available upon request"
+      contact: "Available upon request",
     },
     {
       name: "Mike Johnson",
       position: "Lead Developer at Digital Innovations",
-      contact: "Available upon request"
-    }
+      contact: "Available upon request",
+    },
   ];
 
   useEffect(() => {
     const fetchGithubProjects = async () => {
       try {
         const octokit = new Octokit();
-        const response = await octokit.request('GET /users/{username}/repos', {
+        const response = await octokit.request("GET /users/{username}/repos", {
           username: personalInfo.githubUsername,
-          sort: 'updated',
+          sort: "updated",
           per_page: 6,
-          headers: {
-            'X-GitHub-Api-Version': '2022-11-28'
-          }
+          headers: { "X-GitHub-Api-Version": "2022-11-28" },
         });
-
         interface GithubRepo {
           name: string;
           description: string;
@@ -85,18 +98,18 @@ function App() {
 
         const repos: GithubRepo[] = response.data.map((repo: any) => ({
           name: repo.name,
-          description: repo.description || 'No description available',
+          description: repo.description || "No description available",
           link: repo.html_url,
           stars: repo.stargazers_count,
           forks: repo.forks_count,
           language: repo.language,
-          updatedAt: new Date(repo.updated_at).toLocaleDateString()
+          updatedAt: new Date(repo.updated_at).toLocaleDateString(),
         }));
 
         setGithubProjects(repos);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching GitHub repositories:', error);
+        console.error("Error fetching GitHub repositories:", error);
         setLoading(false);
       }
     };
@@ -105,7 +118,6 @@ function App() {
   }, [personalInfo.githubUsername]);
 
   const handleDownloadCV = () => {
-    // In a real application, this would trigger the download of an actual PDF
     alert("PDF download functionality would be implemented here");
   };
 
@@ -114,33 +126,31 @@ function App() {
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="p-8">
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row items-center mb-8">
-            <img
-              src={personalInfo.image}
-              alt={personalInfo.name}
-              className="w-32 h-32 rounded-full object-cover mb-4 md:mb-0 md:mr-8"
-            />
-            <div className="text-center md:text-left">
-              <h1 className="text-3xl font-bold text-gray-900">{personalInfo.name}</h1>
-              <h2 className="text-xl text-blue-600 mb-2">{personalInfo.title}</h2>
-              <p className="text-gray-600 max-w-2xl">{personalInfo.intro}</p>
-              
-              <div className="flex items-center justify-center md:justify-start space-x-4 mt-4">
-                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" 
-                   className="text-gray-600 hover:text-gray-900">
+          <div className="header">
+            <img src={personalInfo.image} alt={personalInfo.name} />
+            <div>
+              <h1>{personalInfo.name}</h1>
+              <h2>{personalInfo.title}</h2>
+              <p>{personalInfo.intro}</p>
+              <div className="social-links">
+                <a
+                  href={`https://${personalInfo.github}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Github className="w-6 h-6" />
                 </a>
-                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer"
-                   className="text-gray-600 hover:text-gray-900">
+                <a
+                  href={`https://${personalInfo.linkedin}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Linkedin className="w-6 h-6" />
                 </a>
-                <a href={`mailto:${personalInfo.email}`} className="text-gray-600 hover:text-gray-900">
+                <a href={`mailto:${personalInfo.email}`}>
                   <Mail className="w-6 h-6" />
                 </a>
-                <button
-                  onClick={handleDownloadCV}
-                  className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                >
+                <button onClick={handleDownloadCV} className="download-cv-btn">
                   <Download className="w-4 h-4 mr-2" />
                   Download CV
                 </button>
@@ -149,28 +159,28 @@ function App() {
           </div>
 
           {/* Main Content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid-container">
             {/* Left Column */}
             <div>
-              <section className="mb-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Education</h3>
+              <section>
+                <h3 className="section-title">Education</h3>
                 {education.map((edu, index) => (
-                  <div key={index} className="mb-4">
-                    <h4 className="font-medium text-gray-900">{edu.degree}</h4>
-                    <p className="text-gray-600">{edu.school}</p>
-                    <p className="text-gray-500 text-sm">{edu.year}</p>
+                  <div key={index} className="section-item">
+                    <h4>{edu.degree}</h4>
+                    <p>{edu.school}</p>
+                    <p className="year">{edu.year}</p>
                   </div>
                 ))}
               </section>
 
-              <section className="mb-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Experience</h3>
+              <section>
+                <h3 className="section-title">Experience</h3>
                 {experience.map((exp, index) => (
-                  <div key={index} className="mb-4">
-                    <h4 className="font-medium text-gray-900">{exp.role}</h4>
-                    <p className="text-gray-600">{exp.company}</p>
-                    <p className="text-gray-500 text-sm">{exp.period}</p>
-                    <p className="text-gray-600 mt-1">{exp.description}</p>
+                  <div key={index} className="section-item">
+                    <h4>{exp.role}</h4>
+                    <p>{exp.company}</p>
+                    <p className="year">{exp.period}</p>
+                    <p>{exp.description}</p>
                   </div>
                 ))}
               </section>
@@ -178,36 +188,26 @@ function App() {
 
             {/* Right Column */}
             <div>
-              <section className="mb-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">GitHub Projects</h3>
+              <section>
+                <h3 className="section-title">GitHub Projects</h3>
                 {loading ? (
-                  <p className="text-gray-600">Loading projects...</p>
+                  <p>Loading projects...</p>
                 ) : (
                   githubProjects.map((project, index) => (
-                    <div key={index} className="mb-6 bg-gray-50 rounded-lg p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <h4 className="font-medium text-gray-900">{project.name}</h4>
-                          <a href={project.link} target="_blank" rel="noopener noreferrer"
-                             className="ml-2 text-blue-600 hover:text-blue-800">
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        </div>
-                        <div className="flex items-center space-x-4 text-sm text-gray-600">
-                          <span className="flex items-center">
-                            <Star className="w-4 h-4 mr-1" />
-                            {project.stars}
-                          </span>
-                          <span className="flex items-center">
-                            <GitFork className="w-4 h-4 mr-1" />
-                            {project.forks}
-                          </span>
-                        </div>
-                      </div>
-                      <p className="text-gray-600 mt-2">{project.description}</p>
-                      <div className="mt-2 flex items-center justify-between">
-                        <span className="text-sm text-blue-600">{project.language}</span>
-                        <span className="text-sm text-gray-500">Updated: {project.updatedAt}</span>
+                    <div key={index} className="project-card">
+                      <h4>{project.name}</h4>
+                      <p>{project.description}</p>
+                      <div className="project-info">
+                        <span className="text-gray">⭐ {project.stars}</span>
+                        <span className="text-gray">🍴 {project.forks}</span>
+                        <span className="text-gray">{project.language}</span>
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
                       </div>
                     </div>
                   ))
@@ -215,12 +215,12 @@ function App() {
               </section>
 
               <section>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">References</h3>
+                <h3 className="section-title">References</h3>
                 {references.map((ref, index) => (
-                  <div key={index} className="mb-4">
-                    <h4 className="font-medium text-gray-900">{ref.name}</h4>
-                    <p className="text-gray-600">{ref.position}</p>
-                    <p className="text-gray-500 text-sm">{ref.contact}</p>
+                  <div key={index} className="section-item">
+                    <h4>{ref.name}</h4>
+                    <p>{ref.position}</p>
+                    <p>{ref.contact}</p>
                   </div>
                 ))}
               </section>
