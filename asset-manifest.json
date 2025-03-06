@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/PramudithaN/pramuditha_cv.git/static/css/main.e1429fb5.css",
+    "main.js": "/PramudithaN/pramuditha_cv.git/static/js/main.2de96627.js",
+    "index.html": "/PramudithaN/pramuditha_cv.git/index.html",
+    "main.e1429fb5.css.map": "/PramudithaN/pramuditha_cv.git/static/css/main.e1429fb5.css.map",
+    "main.2de96627.js.map": "/PramudithaN/pramuditha_cv.git/static/js/main.2de96627.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e1429fb5.css",
+    "static/js/main.2de96627.js"
+  ]
+}
