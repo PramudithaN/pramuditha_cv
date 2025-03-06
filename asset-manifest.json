@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/PramudithaN/pramuditha_cv.git/static/css/main.e1429fb5.css",
-    "main.js": "/PramudithaN/pramuditha_cv.git/static/js/main.2de96627.js",
-    "index.html": "/PramudithaN/pramuditha_cv.git/index.html",
-    "main.e1429fb5.css.map": "/PramudithaN/pramuditha_cv.git/static/css/main.e1429fb5.css.map",
-    "main.2de96627.js.map": "/PramudithaN/pramuditha_cv.git/static/js/main.2de96627.js.map"
+    "main.css": "/pramuditha_cv/static/css/main.e1429fb5.css",
+    "main.js": "/pramuditha_cv/static/js/main.2de96627.js",
+    "index.html": "/pramuditha_cv/index.html",
+    "main.e1429fb5.css.map": "/pramuditha_cv/static/css/main.e1429fb5.css.map",
+    "main.2de96627.js.map": "/pramuditha_cv/static/js/main.2de96627.js.map"
   },
   "entrypoints": [
     "static/css/main.e1429fb5.css",
