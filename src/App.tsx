@@ -20,7 +20,6 @@ interface GithubRepo {
   updatedAt: string;
 }
 
-
 function App() {
   const [githubProjects, setGithubProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -92,21 +91,30 @@ function App() {
         const response = await octokit.request("GET /users/{username}/repos", {
           username: personalInfo.githubUsername,
           sort: "updated",
-          per_page: 6,
           headers: {
             "X-GitHub-Api-Version": "2022-11-28",
           },
         });
-     
-        const repos: GithubRepo[] = response.data.map((repo: any) => ({
-          name: repo.name,
-          description: repo.description || "No description available",
-          link: repo.html_url,
-          stars: repo.stargazers_count,
-          forks: repo.forks_count,
-          language: repo.language,
-          updatedAt: new Date(repo.updated_at).toLocaleDateString(),
-        }));
+
+        const repos: GithubRepo[] = response.data
+          .filter(
+            (repo: any) =>
+              ![
+                "Wavewatchers-Figma",
+                "Celestial-Routes-Figma",
+                "my-to-do-app",
+                "PramudithaN",
+              ].includes(repo.name)
+          )
+          .map((repo: any) => ({
+            name: repo.name,
+            description: repo.description || "No description available",
+            link: repo.html_url,
+            stars: repo.stargazers_count,
+            forks: repo.forks_count,
+            language: repo.language,
+            updatedAt: new Date(repo.updated_at).toLocaleDateString(),
+          }));
 
         setGithubProjects(repos);
         setLoading(false);
@@ -214,7 +222,7 @@ function App() {
             <div>
               <section className="mb-8">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  GitHub Projects
+                  Projects
                 </h3>
                 {loading ? (
                   <p className="text-gray-600">Loading projects...</p>
