@@ -2,7 +2,7 @@
   "name": "pramuditha_cv",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/PramudithaN/pramuditha_cv.git",
+  "homepage": "https://PramudithaN.github.io/pramuditha_cv",
   "dependencies": {
     "@octokit/rest": "^21.1.1",
     "@testing-library/dom": "^10.4.0",
