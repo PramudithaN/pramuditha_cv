@@ -60,22 +60,42 @@ function App() {
       role: "Associate Software Engineer",
       company: "LOLC Technologies",
       period: "Oct 2024 - Present",
-      description: "Working on software development in a hybrid environment.",
+      description: [
+        "Working on software development in a hybrid environment.",
+        "Mastered React and TypeScript, with a deep understanding of React Hooks and Forms.",
+        "Worked with state management using Redux for efficient data handling.",
+        "Gained experience in Ant Design (AntD) for building modern UI components.",
+        "Enhanced UI/UX skills, including Figma design and user experience improvements.",
+        "Applied fundamental knowledge of Spring Boot for backend development.",
+        "Handled deployments to QA, UAT, and live environments.",
+        "Managed screen permissions and user access control.",
+        "Worked with CI/CD pipelines using Jenkins and ArgoCD.",
+        "Monitored deployment progress and troubleshooting issues.",
+        "Gained experience in Git versioning, including Git tags and commands.",
+        "Took second frontend ownership of the YARD TD and Supplier modules.",
+      ],
     },
     {
       role: "Trainee",
       company: "LOLC Technologies",
       period: "Mar 2022 - Oct 2024",
-      description:
-        "Completed a 2-year 8-month internship in software engineering.",
-    },
+      description: [
+        "Completed a 2-year, 8-month internship in Software Engineering.",
+        "Worked as part of the UI/UX team, creating Figma designs and improving user experience.",
+        "Gained hands-on experience in frontend development using React and TypeScript.",
+        "Implemented interactive UI components and responsive layouts.",
+        "Worked with Java, Oracle Forms, and Jasper Reports for backend and reporting functionalities.",
+        "Developed and maintained data-driven reports and dashboards for business decision-making.",
+        "Collaborated with cross-functional teams to deliver software solutions aligned with business requirements."
+      ],
+    }
   ];
 
   const references = [
     {
-      name: "Jane Smith",
-      position: "CTO at Tech Solutions",
-      contact: "Available upon request",
+      name: "Mr. Sahan Amarasekara",
+      position: "Senior  Software Engineer (Ad Up)",
+      contact: "sahan.chamu1@gmail.com",
     },
     {
       name: "Mike Johnson",
@@ -129,13 +149,16 @@ function App() {
 
   const handleDownloadCV = async () => {
     try {
+      // Replace with your hosted backend URL
+      const backendUrl = "http://localhost:3000/download-cv";
+  
       // Make an API call to the backend
-      const response = await fetch("http://localhost:3000/download-cv");
-
+      const response = await fetch(backendUrl);
+  
       if (response.ok) {
         // Convert the response to a blob
         const blob = await response.blob();
-
+  
         // Create a link element to trigger the download
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -144,7 +167,7 @@ function App() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-
+  
         // Clean up the URL object
         window.URL.revokeObjectURL(url);
       } else {
@@ -231,13 +254,23 @@ function App() {
                   Experience
                 </h3>
                 {experience.map((exp, index) => (
-                  <div key={index} className="mb-4">
-                    <h4 className="font-medium text-gray-900">{exp.role}</h4>
-                    <p className="text-gray-600">{exp.company}</p>
-                    <p className="text-gray-500 text-sm">{exp.period}</p>
-                    <p className="text-gray-600 mt-1">{exp.description}</p>
-                  </div>
-                ))}
+  <div key={index} className="mb-4">
+    <h4 className="font-medium text-gray-900">{exp.role}</h4>
+    <p className="text-gray-600">{exp.company}</p>
+    <p className="text-gray-500 text-sm">{exp.period}</p>
+    
+    {Array.isArray(exp.description) ? (
+      <ul className="list-disc pl-5 mt-1 text-gray-600">
+        {exp.description.map((point, i) => (
+          <li key={i}>{point}</li>
+        ))}
+      </ul>
+    ) : (
+      <p className="text-gray-600 mt-1">{exp.description}</p>
+    )}
+  </div>
+))}
+
               </section>
             </div>
 
