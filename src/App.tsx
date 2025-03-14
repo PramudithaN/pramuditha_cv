@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Github,
-  Linkedin,
-  Mail,
-  Download,
-  ExternalLink,
-  Star,
-  GitFork,
-} from "lucide-react";
+import { Github, Linkedin, Mail, Download } from "lucide-react";
 import { Octokit } from "@octokit/rest";
 
 interface GithubRepo {
@@ -21,7 +13,6 @@ interface GithubRepo {
 }
 
 function App() {
-  const [githubProjects, setGithubProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   const personalInfo = {
@@ -37,6 +28,7 @@ function App() {
     phone: "+94-713-052-556",
     address: "63/9,Gallage Mawatha,Mirihana,Nugegoda",
   };
+
   const contactDetails = [
     {
       type: "Phone",
@@ -59,6 +51,7 @@ function App() {
       value: personalInfo.address,
     },
   ];
+
   const education = [
     {
       degree: "BSc (Hons) Software Engineering",
@@ -120,7 +113,7 @@ function App() {
     "Version Control: Git (Git tags, commands), CI/CD Pipelines (Jenkins, ArgoCD)",
     "Database & Reporting: Jasper Reports, Data-Driven Dashboards",
     "Deployment: QA, UAT, Live Environments",
-    "Graphic Design: Adobe Creative Suite (Photoshop, Illustrator,After Effects, Premiere Pro)",
+    "Graphic Design: Adobe Creative Suite (Photoshop, Illustrator, After Effects, Premiere Pro)",
   ];
 
   const references = [
@@ -135,51 +128,6 @@ function App() {
       contact: "Available upon request",
     },
   ];
-
-  useEffect(() => {
-    const fetchGithubProjects = async () => {
-      try {
-        const octokit = new Octokit();
-        const response = await octokit.request("GET /users/{username}/repos", {
-          username: personalInfo.githubUsername,
-          sort: "updated",
-          headers: {
-            "X-GitHub-Api-Version": "2022-11-28",
-          },
-        });
-
-        const repos: GithubRepo[] = response.data
-          .filter(
-            (repo: any) =>
-              ![
-                "Concurrent-Programming",
-                "Algorithm_CW_SlidingPuzzle",
-                "Wavewatchers-Figma",
-                "Celestial-Routes-Figma",
-                "my-to-do-app",
-                "PramudithaN",
-              ].includes(repo.name)
-          )
-          .map((repo: any) => ({
-            name: repo.name,
-            description: repo.description || "No description available",
-            link: repo.html_url,
-            stars: repo.stargazers_count,
-            forks: repo.forks_count,
-            language: repo.language,
-            updatedAt: new Date(repo.updated_at).toLocaleDateString(),
-          }));
-
-        setGithubProjects(repos);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching GitHub repositories:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchGithubProjects();
-  }, [personalInfo.githubUsername]);
 
   const handleDownloadCV = async () => {
     try {
@@ -276,22 +224,22 @@ function App() {
                 </h3>
                 {contactDetails.map((contact, index) => (
                   <div key={index} className="mb-2">
-                    <h4 className="font-medium text-gray-900">
-                      {contact.type}
-                    </h4>
-                    {contact.type === "GitHub" || contact.type === "Email"|| contact.type === "LinkedIn" ? (
-                        <a
+                    <h4 className="font-medium text-gray-900">{contact.type}</h4>
+                    {contact.type === "GitHub" ||
+                    contact.type === "Email" ||
+                    contact.type === "LinkedIn" ? (
+                      <a
                         href={
-                        contact.type === "GitHub" || contact.type === "LinkedIn"
-                        ? `https://${contact.value}`
-                        : `mailto:${contact.value}`
+                          contact.type === "GitHub" || contact.type === "LinkedIn"
+                            ? `https://${contact.value}`
+                            : `mailto:${contact.value}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:underline"
-                        >
+                      >
                         {contact.value}
-                        </a>
+                      </a>
                     ) : (
                       <p className="text-gray-600">{contact.value}</p>
                     )}
@@ -314,6 +262,20 @@ function App() {
 
               <section className="mb-8">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                  Technical Skills
+                </h3>
+                <ul className="list-disc pl-5 text-gray-600">
+                  {technicalSkills.map((skill, index) => (
+                    <li key={index}>{skill}</li>
+                  ))}
+                </ul>
+              </section>
+            </div>
+
+            {/* Right Column */}
+            <div>
+              <section className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">
                   Experience
                 </h3>
                 {experience.map((exp, index) => (
@@ -330,71 +292,7 @@ function App() {
                 ))}
               </section>
 
-              <section className="mb-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  Technical Skills
-                </h3>
-                <ul className="list-disc pl-5 text-gray-600">
-                  {technicalSkills.map((skill, index) => (
-                    <li key={index}>{skill}</li>
-                  ))}
-                </ul>
-              </section>
-            </div>
-
-            {/* Right Column */}
-            <div>
-              <section className="mb-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  Projects
-                </h3>
-                {loading ? (
-                  <p className="text-gray-600">Loading projects...</p>
-                ) : (
-                  githubProjects.map((project, index) => (
-                    <div key={index} className="mb-6 bg-gray-50 rounded-lg p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <h4 className="font-medium text-gray-900">
-                            {project.name}
-                          </h4>
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="ml-2 text-blue-600 hover:text-blue-800"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        </div>
-                        <div className="flex items-center space-x-4 text-sm text-gray-600">
-                          <span className="flex items-center">
-                            <Star className="w-4 h-4 mr-1" />
-                            {project.stars}
-                          </span>
-                          <span className="flex items-center">
-                            <GitFork className="w-4 h-4 mr-1" />
-                            {project.forks}
-                          </span>
-                        </div>
-                      </div>
-                      <p className="text-gray-600 mt-2">
-                        {project.description}
-                      </p>
-                      <div className="mt-2 flex items-center justify-between">
-                        <span className="text-sm text-blue-600">
-                          {project.language}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                          Updated: {project.updatedAt}
-                        </span>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </section>
-
-              <section>
+              {/* <section>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
                   References
                 </h3>
@@ -405,7 +303,7 @@ function App() {
                     <p className="text-gray-500 text-sm">{ref.contact}</p>
                   </div>
                 ))}
-              </section>
+              </section> */}
             </div>
           </div>
         </div>
