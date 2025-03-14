@@ -1,4 +1,4 @@
-**Pramuditha Nadun - Portfolio**
+**Pramuditha Nadun - CV**
 
 Welcome to my personal CV website! This project showcases my skills, experience, education, and projects as a Software Engineering student and Associate Software Engineer. The CV is built using React and TypeScript, and it is deployed on GitHub Pages.
 
