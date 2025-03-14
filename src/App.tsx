@@ -34,16 +34,39 @@ function App() {
     github: "github.com/PramudithaN",
     githubUsername: "PramudithaN",
     linkedin: "www.linkedin.com/in/pramuditha-nadun-612b1b204",
+    phone: "+94-713-052-556",
+    address: "63/9,Gallage Mawatha,Mirihana,Nugegoda",
   };
-
+  const contactDetails = [
+    {
+      type: "Phone",
+      value: personalInfo.phone,
+    },
+    {
+      type: "Email",
+      value: personalInfo.email,
+    },
+    {
+      type: "GitHub",
+      value: personalInfo.github,
+    },
+    {
+      type: "LinkedIn",
+      value: personalInfo.linkedin,
+    },
+    {
+      type: "Address",
+      value: personalInfo.address,
+    },
+  ];
   const education = [
     {
-      degree: "Bachelor of Software Engineering",
-      school: "Informatics Institute of Technology",
+      degree: "BSc (Hons) Software Engineering",
+      school: "University of Westminster, UK",
       year: "Feb 2022 - Present",
     },
     {
-      degree: "G.C.E Advanced Level",
+      degree: "G.C.E Advanced Level (Science Stream)",
       school: "Mahinda College",
       year: "2017 - 2019",
     },
@@ -51,7 +74,6 @@ function App() {
       degree: "G.C.E Ordinary Level",
       school: "Mahinda College",
       year: "2010 - 2016",
-      grade: "A-8 B-1",
     },
   ];
 
@@ -86,15 +108,25 @@ function App() {
         "Implemented interactive UI components and responsive layouts.",
         "Worked with Java, Oracle Forms, and Jasper Reports for backend and reporting functionalities.",
         "Developed and maintained data-driven reports and dashboards for business decision-making.",
-        "Collaborated with cross-functional teams to deliver software solutions aligned with business requirements."
+        "Collaborated with cross-functional teams to deliver software solutions aligned with business requirements.",
       ],
-    }
+    },
+  ];
+
+  const technicalSkills = [
+    "Frontend Development: React, TypeScript, React Hooks, Redux, Ant Design (AntD), HTML, CSS, JavaScript",
+    "Backend Development: Spring Boot, Java, Oracle Forms",
+    "UI/UX Design: Figma, Wireframing, User Experience Improvement",
+    "Version Control: Git (Git tags, commands), CI/CD Pipelines (Jenkins, ArgoCD)",
+    "Database & Reporting: Jasper Reports, Data-Driven Dashboards",
+    "Deployment: QA, UAT, Live Environments",
+    "Graphic Design: Adobe Creative Suite (Photoshop, Illustrator,After Effects, Premiere Pro)",
   ];
 
   const references = [
     {
       name: "Mr. Sahan Amarasekara",
-      position: "Senior  Software Engineer (Ad Up)",
+      position: "Senior Software Engineer (Ad Up)",
       contact: "sahan.chamu1@gmail.com",
     },
     {
@@ -120,6 +152,8 @@ function App() {
           .filter(
             (repo: any) =>
               ![
+                "Concurrent-Programming",
+                "Algorithm_CW_SlidingPuzzle",
                 "Wavewatchers-Figma",
                 "Celestial-Routes-Figma",
                 "my-to-do-app",
@@ -151,14 +185,14 @@ function App() {
     try {
       // Replace with your hosted backend URL
       const backendUrl = "http://localhost:3000/download-cv";
-  
+
       // Make an API call to the backend
       const response = await fetch(backendUrl);
-  
+
       if (response.ok) {
         // Convert the response to a blob
         const blob = await response.blob();
-  
+
         // Create a link element to trigger the download
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -167,7 +201,7 @@ function App() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-  
+
         // Clean up the URL object
         window.URL.revokeObjectURL(url);
       } else {
@@ -238,6 +272,35 @@ function App() {
             <div>
               <section className="mb-8">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                  Contact Details
+                </h3>
+                {contactDetails.map((contact, index) => (
+                  <div key={index} className="mb-2">
+                    <h4 className="font-medium text-gray-900">
+                      {contact.type}
+                    </h4>
+                    {contact.type === "GitHub" || contact.type === "Email"|| contact.type === "LinkedIn" ? (
+                        <a
+                        href={
+                        contact.type === "GitHub" || contact.type === "LinkedIn"
+                        ? `https://${contact.value}`
+                        : `mailto:${contact.value}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                        >
+                        {contact.value}
+                        </a>
+                    ) : (
+                      <p className="text-gray-600">{contact.value}</p>
+                    )}
+                  </div>
+                ))}
+              </section>
+
+              <section className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">
                   Education
                 </h3>
                 {education.map((edu, index) => (
@@ -254,23 +317,28 @@ function App() {
                   Experience
                 </h3>
                 {experience.map((exp, index) => (
-  <div key={index} className="mb-4">
-    <h4 className="font-medium text-gray-900">{exp.role}</h4>
-    <p className="text-gray-600">{exp.company}</p>
-    <p className="text-gray-500 text-sm">{exp.period}</p>
-    
-    {Array.isArray(exp.description) ? (
-      <ul className="list-disc pl-5 mt-1 text-gray-600">
-        {exp.description.map((point, i) => (
-          <li key={i}>{point}</li>
-        ))}
-      </ul>
-    ) : (
-      <p className="text-gray-600 mt-1">{exp.description}</p>
-    )}
-  </div>
-))}
+                  <div key={index} className="mb-4">
+                    <h4 className="font-medium text-gray-900">{exp.role}</h4>
+                    <p className="text-gray-600">{exp.company}</p>
+                    <p className="text-gray-500 text-sm">{exp.period}</p>
+                    <ul className="list-disc pl-5 mt-1 text-gray-600">
+                      {exp.description.map((point, i) => (
+                        <li key={i}>{point}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </section>
 
+              <section className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                  Technical Skills
+                </h3>
+                <ul className="list-disc pl-5 text-gray-600">
+                  {technicalSkills.map((skill, index) => (
+                    <li key={index}>{skill}</li>
+                  ))}
+                </ul>
               </section>
             </div>
 
