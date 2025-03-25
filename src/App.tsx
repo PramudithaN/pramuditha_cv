@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Github, Linkedin, Mail, Download } from "lucide-react";
 import { Octokit } from "@octokit/rest";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 interface GithubRepo {
   name: string;
@@ -160,9 +162,49 @@ function App() {
     }
   };
 
+  // const handleDownloadPDF = () => {
+  //   // Capture the entire webpage or a specific element
+  //   const element = document.documentElement; // For the entire page
+  //   // const element = document.getElementById('content'); // For a specific element
+
+  //   html2canvas(element).then((canvas) => {
+  //     const imgData = canvas.toDataURL('image/png'); // Convert canvas to image
+  //     const pdf = new jsPDF('p', 'mm', 'a4'); // Create a PDF in portrait mode, A4 size
+
+  //     const imgWidth = 210; // A4 width in mm
+  //     const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calculate height to maintain aspect ratio
+
+  //     pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight); // Add image to PDF
+  //     pdf.save('webpage.pdf'); // Download the PDF
+  //   });
+  // };
+
+  
+  const handleDownloadPDF = () => {
+    // Capture the specific element by its ID
+    const element = document.getElementById('resume-content');
+
+    if (element) {
+      html2canvas(element).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png'); // Convert canvas to image
+        const pdf = new jsPDF('p', 'mm', 'a4'); // Create a PDF in portrait mode, A4 size
+
+        const imgWidth = 210; // A4 width in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calculate height to maintain aspect ratio
+
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight); // Add image to PDF
+        pdf.save('resume.pdf'); // Download the PDF
+      });
+    } else {
+      console.error("Element not found");
+    }
+  };
+  //test
+
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <div id="resume-content" className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="p-8">
           {/* Header Section */}
           <div className="flex flex-col md:flex-row items-center mb-8">
@@ -204,7 +246,7 @@ function App() {
                   <Mail className="w-6 h-6" />
                 </a>
                 <button
-                  onClick={handleDownloadCV}
+                  onClick={handleDownloadPDF}
                   className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                 >
                   <Download className="w-4 h-4 mr-2" />
