@@ -5,32 +5,31 @@
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
-> A personal CV website built with React and TypeScript, featuring a responsive design and PDF download functionality.
+> A professional digital CV designed to showcase my journey as a Software Engineering student and Associate Software Engineer, featuring a responsive design and PDF download functionality.
 
 ---
 
 ## 📸 Preview
 
 **CV Dashboard**
-![Preview](public/cvImg.png)
+![Preview](public/PramaCV.png)
 
 ---
 
 ## 📖 About This Project
 
-This project is a professional digital CV designed to showcase my journey as a Software Engineering student and Associate Software Engineer. Built with **React 19** and **TypeScript**, it provides a clean, modern interface to explore my professional background, technical expertise, and academic achievements. The application includes a specialized feature to export the CV as a high-quality PDF directly from the browser.
+This project is a modern, interactive CV platform built with **React 19** and **TypeScript**. It serves as a comprehensive digital portfolio, highlighting my professional background, technical expertise, and academic achievements. The application is optimized for performance and accessibility, featuring a specialized export functionality that allows users to download a high-quality PDF version of the CV directly from their browser.
 
 ---
 
 ## ✨ Features
 
-- 👤 **Personal Profile** - Detailed introduction and professional title.
-- 📱 **Interactive Contact** - Quick access to GitHub, LinkedIn, and Email.
-- 🎓 **Education Timeline** - Comprehensive list of academic qualifications.
-- 💼 **Experience Tracking** - Detailed history of professional roles and responsibilities.
-- 🛠️ **Technical Expertise** - Categorized list of languages, frameworks, and tools.
-- 📄 **PDF Export** - Download a professional PDF version of the CV using `html2canvas` and `jsPDF`.
-- ⚡ **Responsive UI** - Fully optimized for mobile, tablet, and desktop views.
+- 🚀 **Dynamic Profile** - Interactive presentation of professional experience and skills.
+- 🎨 **Modern UI/UX** - Clean, professional aesthetic built with Tailwind CSS.
+- 🌙 **Responsive Design** - Fully optimized for seamless viewing on mobile, tablet, and desktop.
+- 📄 **PDF Export** - Instant, high-quality PDF generation using `jsPDF` and `html2canvas`.
+- 🔍 **Interactive Contact** - One-click access to GitHub, LinkedIn, and Email.
+- 💼 **Career Timeline** - Detailed tracking of professional roles and academic history.
 
 ---
 
@@ -38,19 +37,19 @@ This project is a professional digital CV designed to showcase my journey as a S
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | [React 19](https://reactjs.org/) |
-| Language | [TypeScript](https://www.typescriptlang.org/) |
-| Styling | [Tailwind CSS](https://tailwindcss.com/) |
-| Icons | [Lucide React](https://lucide.dev/) |
-| PDF Generation | [jsPDF](https://github.com/parallax/jsPDF) & [html2canvas](https://html2canvas.hertzen.com/) |
+| Framework | [React v19.0.0](https://reactjs.org/) |
+| Language | [TypeScript v4.9.5](https://www.typescriptlang.org/) |
+| Styling | [Tailwind CSS v3.3.3](https://tailwindcss.com/) |
+| Icons | [Lucide React v0.477.0](https://lucide.dev/) |
+| PDF Generation | [jsPDF v3.0.0](https://github.com/parallax/jsPDF) |
 | Deployment | [GitHub Pages](https://pages.github.com/) |
 
 ---
 
 ## 📋 Prerequisites
 
-- [Node.js](https://nodejs.org/) **v16.0.0 or higher**
-- [npm](https://www.npmjs.com/)
+- [Node.js](https://nodejs.org/) **v16.18.0 or higher**
+- [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/)
 - [Git](https://git-scm.com/)
 
 ---
@@ -68,6 +67,8 @@ cd pramuditha_cv
 
 ```bash
 npm install
+# or
+pnpm install
 ```
 
 ### 3. Start the development server
@@ -97,17 +98,17 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ```
 pramuditha_cv/
 ├── public/                  # Static assets and entry HTML
-│   ├── cvImg.png            # Preview image
-│   ├── index.html           # Main entry point
-│   └── manifest.json        # Web app manifest
-├── src/                     # Application source code
-│   ├── App.tsx              # Main CV component and logic
-│   ├── index.tsx            # React root rendering
-│   ├── App.css              # Main application styles
-│   └── index.css            # Global base styles
-├── tailwind.config.js       # Tailwind CSS configuration
+│   ├── cvImg.png            # CV Preview image
+│   ├── index.html           # HTML template
+│   └── manifest.json        # Web App Manifest
+├── src/                     # Source code
+│   ├── App.tsx              # Main CV logic and layout
+│   ├── index.tsx            # Application entry point
+│   ├── App.css              # Component-specific styles
+│   └── index.css            # Global Tailwind directives
+├── tailwind.config.js       # Styling configuration
 ├── tsconfig.json            # TypeScript configuration
-└── package.json             # Dependencies and scripts
+└── package.json             # Project dependencies and scripts
 ```
 
 ---
