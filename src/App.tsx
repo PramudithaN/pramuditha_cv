@@ -19,26 +19,11 @@ function App() {
   };
 
   const contactDetails = [
-    {
-      type: "Phone",
-      value: personalInfo.phone,
-    },
-    {
-      type: "Email",
-      value: personalInfo.email,
-    },
-    {
-      type: "GitHub",
-      value: personalInfo.github,
-    },
-    {
-      type: "LinkedIn",
-      value: personalInfo.linkedin,
-    },
-    {
-      type: "Address",
-      value: personalInfo.address,
-    },
+    { type: "Phone", value: personalInfo.phone },
+    { type: "Email", value: personalInfo.email },
+    { type: "GitHub", value: personalInfo.github },
+    { type: "LinkedIn", value: personalInfo.linkedin },
+    { type: "Address", value: personalInfo.address },
   ];
 
   const education = [
@@ -46,7 +31,7 @@ function App() {
       degree: "BSc (Hons) Software Engineering",
       school: "University of Westminster, UK",
       year: "Feb 2022 - 2026",
-    }
+    },
   ];
 
   const experience = [
@@ -82,7 +67,6 @@ function App() {
         "Architected a distributed full-stack platform that simultaneously translates and synthesizes speech into 17+ languages utilizing the ElevenLabs, DeepL, and Google APIs.",
         "Orchestrated asynchronous background task processing using Celery and Redis to handle heavy text-to-speech workloads, providing users with real-time progress tracking.",
         "Engineered a SHA-256 content-addressed caching mechanism and integrated scalable object storage (MinIO/AWS S3) to significantly minimize external API costs and reduce response latency.",
-        "Containerized the complete application infrastructure—including the API, workers, cache, and database—using Docker Compose for streamlined deployment.",
       ],
     },
     {
@@ -99,139 +83,147 @@ function App() {
   const technicalSkills = [
     { category: "Frontend", skills: "React, TypeScript, JavaScript, React Hooks & Forms, Redux, Ant Design (AntD), HTML, CSS" },
     { category: "Backend & Databases", skills: "Spring Boot, Java, FastAPI, Python, PostgreSQL, Oracle Forms, Jasper Reports" },
-    { category: "DevOps & Infrastructure", skills: "Docker, Git (commands & tagging), Jenkins, ArgoCD, Celery, Redis, AWS S3 / MinIO" },
-    { category: "Design & UI/UX", skills: "Figma, Wireframing, Adobe Creative Suite (Photoshop, Illustrator, Premiere Pro, After Effects)" },
+    { category: "DevOps & Infrastructure", skills: "Docker, Git, Jenkins, ArgoCD, Celery, Redis, AWS S3 / MinIO" },
+    { category: "Design & UI/UX", skills: "Figma, Wireframing, Adobe Creative Suite" },
     { category: "Data & Analytics", skills: "XGBoost, GRU, ARIMA, Variational Mode Decomposition (VMD), FinBERT" },
   ];
 
   const handleDownloadPDF = () => {
-    const element = document.getElementById('resume-content');
+    const element = document.getElementById("resume-content");
     if (element) {
-      html2canvas(element).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
+      // Force html2canvas to capture exactly at A4 pixel dimensions
+      html2canvas(element, { 
+        scale: 3, // Increased scale for crisper text
+        useCORS: true,
+        windowWidth: 794,
+        windowHeight: 1123,
+      }).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4");
         const imgWidth = 210;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        pdf.save('Pramuditha_Nadun_CV.pdf');
+        const imgHeight = 297; 
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+        pdf.save("Pramuditha_Nadun_CV.pdf");
       });
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div id="resume-content" className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="p-8">
+    <div className="min-h-screen bg-gray-200 py-8 flex flex-col items-center overflow-auto">
+      
+      <button
+        onClick={handleDownloadPDF}
+        className="mb-6 flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-shadow shadow-md hover:shadow-lg font-semibold"
+      >
+        <Download className="w-5 h-5 mr-2" />
+        Download CV as PDF
+      </button>
+
+      {/* Changed to strict pixel dimensions equivalent to A4 (794px x 1123px) */}
+      <div 
+        id="resume-content" 
+        className="bg-white shadow-2xl overflow-hidden box-border shrink-0"
+        style={{ width: '794px', height: '1123px' }}
+      >
+        <div className="p-8 h-full flex flex-col">
+          
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row items-center mb-8 border-b pb-8">
+          <div className="flex items-center mb-6 border-b pb-5 shrink-0">
             <img
               src={personalInfo.image}
               alt={personalInfo.name}
-              className="w-32 h-32 rounded-full object-cover mb-4 md:mb-0 md:mr-8 border-4 border-blue-50"
+              className="w-24 h-24 rounded-full object-cover mr-6 border-2 border-blue-50"
             />
-            <div className="text-center md:text-left">
-              <h1 className="text-4xl font-bold text-gray-900 tracking-tight">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
                 {personalInfo.name}
               </h1>
-              <h2 className="text-xl font-semibold text-blue-600 mb-3">
+              <h2 className="text-lg font-semibold text-blue-600 mb-2">
                 {personalInfo.title}
               </h2>
-              <p className="text-gray-600 max-w-3xl leading-relaxed text-sm">
+              <p className="text-gray-600 text-[11px] leading-snug max-w-2xl">
                 {personalInfo.intro}
               </p>
 
-              <div className="flex items-center justify-center md:justify-start space-x-4 mt-6">
-                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  <Github className="w-6 h-6" />
+              <div className="flex items-center space-x-4 mt-3">
+                <a href={`https://${personalInfo.github}`} className="text-gray-500 flex items-center text-[10px]">
+                  <Github className="w-3 h-3 mr-1" /> {personalInfo.githubUsername}
                 </a>
-                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  <Linkedin className="w-6 h-6" />
+                <a href={`https://${personalInfo.linkedin}`} className="text-gray-500 flex items-center text-[10px]">
+                  <Linkedin className="w-3 h-3 mr-1" /> LinkedIn
                 </a>
-                <a href={`mailto:${personalInfo.email}`} className="text-gray-600 hover:text-blue-600 transition-colors">
-                  <Mail className="w-6 h-6" />
+                <a href={`mailto:${personalInfo.email}`} className="text-gray-500 flex items-center text-[10px]">
+                  <Mail className="w-3 h-3 mr-1" /> {personalInfo.email}
                 </a>
-                <button
-                  onClick={handleDownloadPDF}
-                  className="flex items-center bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-shadow shadow-md hover:shadow-lg"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download CV
-                </button>
               </div>
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            {/* Left Column (Sidebar-ish) */}
-            <div className="lg:col-span-1 border-r pr-8">
-              <section className="mb-10">
-                <h3 className="text-lg font-bold text-gray-900 mb-4 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-3 gap-6 flex-grow">
+            
+            {/* Left Column (Sidebar) */}
+            <div className="col-span-1 border-r pr-5">
+              <section className="mb-6">
+                <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Contact
                 </h3>
-                {contactDetails.map((contact, index) => (
-                  <div key={index} className="mb-3">
-                    <h4 className="text-xs font-bold text-gray-500 uppercase">{contact.type}</h4>
-                    {contact.type === "GitHub" || contact.type === "Email" || contact.type === "LinkedIn" ? (
-                      <a
-                        href={contact.type === "Email" ? `mailto:${contact.value}` : `https://${contact.value}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline text-sm break-all"
-                      >
-                        {contact.value}
-                      </a>
-                    ) : (
-                      <p className="text-gray-700 text-sm">{contact.value}</p>
-                    )}
-                  </div>
-                ))}
+                <div className="space-y-2">
+                  {contactDetails.map((contact, index) => (
+                    <div key={index}>
+                      <h4 className="text-[9px] font-bold text-gray-400 uppercase">{contact.type}</h4>
+                      <p className="text-gray-700 text-[11px] break-all">{contact.value}</p>
+                    </div>
+                  ))}
+                </div>
               </section>
 
-              <section className="mb-10">
-                <h3 className="text-lg font-bold text-gray-900 mb-4 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
-                  Technical Skills
+              <section className="mb-6">
+                <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+                  Skills
                 </h3>
-                {technicalSkills.map((skillGroup, index) => (
-                  <div key={index} className="mb-4">
-                    <h4 className="text-sm font-bold text-gray-800 mb-1">{skillGroup.category}</h4>
-                    <p className="text-gray-600 text-sm leading-relaxed">{skillGroup.skills}</p>
-                  </div>
-                ))}
+                <div className="space-y-3">
+                  {technicalSkills.map((skillGroup, index) => (
+                    <div key={index}>
+                      <h4 className="text-[11px] font-bold text-gray-800">{skillGroup.category}</h4>
+                      <p className="text-gray-600 text-[10px] leading-tight">{skillGroup.skills}</p>
+                    </div>
+                  ))}
+                </div>
               </section>
 
               <section>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+                <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Education
                 </h3>
                 {education.map((edu, index) => (
-                  <div key={index} className="mb-4">
-                    <h4 className="text-sm font-bold text-gray-900">{edu.degree}</h4>
-                    <p className="text-gray-600 text-sm">{edu.school}</p>
-                    <p className="text-blue-600 font-medium text-xs mt-1">{edu.year}</p>
+                  <div key={index}>
+                    <h4 className="text-[11px] font-bold text-gray-900">{edu.degree}</h4>
+                    <p className="text-gray-600 text-[10px]">{edu.school}</p>
+                    <p className="text-blue-600 font-medium text-[10px]">{edu.year}</p>
                   </div>
                 ))}
               </section>
             </div>
 
             {/* Right Column (Experience & Projects) */}
-            <div className="lg:col-span-2">
-              <section className="mb-10">
-                <h3 className="text-lg font-bold text-gray-900 mb-6 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+            <div className="col-span-2 pl-1">
+              <section className="mb-6">
+                <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Professional Experience
                 </h3>
                 {experience.map((exp, index) => (
-                  <div key={index} className="mb-8 relative pl-4 border-l-2 border-gray-100">
-                    <div className="absolute w-3 h-3 bg-blue-600 rounded-full -left-[7px] top-1"></div>
-                    <div className="flex justify-between items-start mb-2">
-                      <h4 className="text-lg font-bold text-gray-900">{exp.role}</h4>
-                      <span className="text-blue-600 font-semibold text-sm bg-blue-50 px-3 py-1 rounded-full">{exp.period}</span>
+                  <div key={index} className="mb-4 relative pl-3 border-l-2 border-gray-100">
+                    <div className="absolute w-2 h-2 bg-blue-600 rounded-full -left-[5px] top-1.5"></div>
+                    <div className="flex justify-between items-start mb-1">
+                      <h4 className="text-[13px] font-bold text-gray-900">{exp.role}</h4>
+                      <span className="text-blue-600 font-semibold text-[10px] bg-blue-50 px-2 py-0.5 rounded">{exp.period}</span>
                     </div>
-                    <p className="text-gray-700 font-semibold mb-3">{exp.company}</p>
-                    <ul className="space-y-2">
+                    <p className="text-gray-700 font-semibold text-[11px] mb-1.5">{exp.company}</p>
+                    <ul className="space-y-1">
                       {exp.description.map((point, i) => (
-                        <li key={i} className="text-gray-600 text-sm flex items-start">
-                          <span className="text-blue-600 mr-2 mt-1.5">•</span>
+                        <li key={i} className="text-gray-600 text-[11px] flex items-start leading-snug">
+                          <span className="text-blue-600 mr-1.5 mt-0.5">•</span>
                           <span>{point}</span>
                         </li>
                       ))}
@@ -241,17 +233,17 @@ function App() {
               </section>
 
               <section>
-                <h3 className="text-lg font-bold text-gray-900 mb-6 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
-                  Selected Projects & Research
+                <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+                  Selected Projects
                 </h3>
                 {projects.map((project, index) => (
-                  <div key={index} className="mb-8 bg-gray-50 p-5 rounded-xl border border-gray-100">
-                    <h4 className="text-lg font-bold text-gray-900 mb-1">{project.title}</h4>
-                    <p className="text-blue-600 text-xs font-mono mb-4 uppercase tracking-tight">{project.tech}</p>
-                    <ul className="space-y-2">
+                  <div key={index} className="mb-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                    <h4 className="text-[13px] font-bold text-gray-900 mb-0.5">{project.title}</h4>
+                    <p className="text-blue-600 text-[9px] font-mono mb-2 uppercase tracking-tight">{project.tech}</p>
+                    <ul className="space-y-1">
                       {project.description.map((point, i) => (
-                        <li key={i} className="text-gray-600 text-sm flex items-start">
-                          <span className="text-blue-400 mr-2 mt-1.5">•</span>
+                        <li key={i} className="text-gray-600 text-[11px] flex items-start leading-snug">
+                          <span className="text-blue-400 mr-1.5 mt-0.5">•</span>
                           <span>{point}</span>
                         </li>
                       ))}
@@ -260,6 +252,7 @@ function App() {
                 ))}
               </section>
             </div>
+
           </div>
         </div>
       </div>
