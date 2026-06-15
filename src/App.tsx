@@ -94,20 +94,24 @@ function App() {
     // 1. Set state to force desktop layout
     setIsDownloading(true);
 
-    // 2. Wait slightly for the DOM to re-render with strict A4 dimensions
+    // 2. Wait slightly for the DOM to re-render with strict US Letter dimensions
     setTimeout(() => {
       const element = document.getElementById("resume-content");
       if (element) {
         html2canvas(element, { 
           scale: 3, 
           useCORS: true,
-          windowWidth: 794,
-          windowHeight: 1123,
+          windowWidth: 816, // Letter pixel width
+          windowHeight: 1056, // Letter pixel height
         }).then((canvas) => {
           const imgData = canvas.toDataURL("image/png");
-          const pdf = new jsPDF("p", "mm", "a4");
-          const imgWidth = 210;
-          const imgHeight = 297; 
+          // Use 'letter' format explicitly
+          const pdf = new jsPDF("p", "mm", "letter");
+          
+          // Strict US Letter dimensions in mm
+          const imgWidth = 215.9; 
+          const imgHeight = 279.4; 
+          
           pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
           pdf.save("Pramuditha_Nadun_CV.pdf");
           
@@ -139,13 +143,13 @@ function App() {
       </button>
 
       {/* Responsive Container: 
-        If downloading, force strict 794x1123 A4 pixels. 
-        If viewing on screen, allow width to be 100% (up to 794px) and height to flow naturally.
+        If downloading, force strict 816x1056 Letter pixels. 
+        If viewing on screen, allow width to flow naturally up to 816px.
       */}
       <div 
         id="resume-content" 
         className={`bg-white shadow-2xl box-border shrink-0 ${isDownloading ? 'overflow-hidden' : 'overflow-hidden sm:rounded-lg'}`}
-        style={isDownloading ? { width: '794px', height: '1123px' } : { width: '100%', maxWidth: '794px' }}
+        style={isDownloading ? { width: '816px', height: '1056px' } : { width: '100%', maxWidth: '816px' }}
       >
         <div className="p-6 md:p-8 h-full flex flex-col">
           
