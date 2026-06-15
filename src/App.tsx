@@ -51,9 +51,17 @@ function App() {
     },
   ];
 
-  const projects = [
+  interface Project {
+    title: string;
+    repo?: string;
+    tech: string;
+    description: string[];
+  }
+
+  const projects: Project[] = [
     {
       title: "11LabsM - Neural Voice Synthesizer & Translator",
+      repo: "https://github.com/PramudithaN/11labsM.git",
       tech: "React, FastAPI, Celery, Redis, PostgreSQL, Docker",
       description: [
         "Architected a distributed full-stack platform that simultaneously translates and synthesizes speech into 17+ languages utilizing the ElevenLabs, DeepL, and Google APIs.",
@@ -64,6 +72,7 @@ function App() {
     },
     {
       title: "Brent Crude Oil Forecasting System",
+      repo: "https://github.com/PramudithaN/petrocast-frontend.git",
       tech: "Python, XGBoost, GRU, ARIMA, VMD",
       description: [
         "Engineered a leakage-free ensemble machine learning model to execute a 5-day price prediction horizon for the crude oil market.",
@@ -173,24 +182,21 @@ function App() {
               </h1>
               
               {/* Contact Info Row 1 */}
-              <div className={`flex flex-wrap justify-center md:justify-start items-center text-black ${isDownloading ? 'text-[10px] gap-1.5 mb-0.5' : 'text-sm gap-2 sm:gap-3 mb-1.5'}`}>
+              <div className={`flex flex-wrap justify-center md:justify-start items-center text-black ${isDownloading ? 'text-[10px] gap-1.5 mb-2.5' : 'text-sm gap-2 sm:gap-3 mb-4'}`}>
                 <span>{personalInfo.address}</span>
                 <span className="text-slate-400">|</span>
                 <span>{personalInfo.phone}</span>
                 <span className="text-slate-400">|</span>
-                <a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:text-blue-800 transition-colors">
-                  {personalInfo.email}
-                </a>
-              </div>
-              
-              {/* Contact Info Row 2 */}
-              <div className={`flex flex-wrap justify-center md:justify-start items-center text-black ${isDownloading ? 'text-[10px] gap-1.5 mb-2.5' : 'text-sm gap-2 sm:gap-3 mb-4'}`}>
-                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
-                  {personalInfo.github}
+                <a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:text-blue-800 transition-colors font-medium">
+                  Email
                 </a>
                 <span className="text-slate-400">|</span>
-                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
-                  {personalInfo.linkedin}
+                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">
+                  GitHub
+                </a>
+                <span className="text-slate-400">|</span>
+                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">
+                  LinkedIn
                 </a>
               </div>
 
@@ -273,7 +279,11 @@ function App() {
               {projects.map((project, index) => (
                 <div key={index}>
                   <h4 className={`font-bold text-black ${isDownloading ? 'text-[11px] mb-1' : 'text-base md:text-lg mb-2'}`}>
-                    {project.title} <span className="font-normal mx-1 text-slate-400">|</span> <span className="italic font-normal">{project.tech}</span>
+                    <a href={project.repo} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
+                      {project.title}
+                    </a>
+                    <span className="font-normal mx-1 text-slate-400">|</span> 
+                    <span className="italic font-normal">{project.tech}</span>
                   </h4>
                   <ul className={isDownloading ? 'space-y-1' : 'space-y-2'}>
                     {project.description.map((point, i) => (
