@@ -162,7 +162,7 @@ function App() {
                 {personalInfo.title}
               </h2>
               {/* Reduced text size to 10px and tightened line height */}
-              <p className="text-gray-600 text-[10px] leading-tight max-w-2xl">
+              <p className="text-gray-600 text-[10px] leading-tight max-w-2xl text-justify">
                 {personalInfo.intro}
               </p>
 
@@ -245,7 +245,7 @@ function App() {
                       {exp.description.map((point, i) => (
                         <li key={i} className="text-gray-600 text-[10px] flex items-start leading-tight">
                           <span className="text-blue-600 mr-1.5 mt-0.5">•</span>
-                          <span>{point}</span>
+                          <span className="text-justify">{point}</span>
                         </li>
                       ))}
                     </ul>
@@ -265,7 +265,7 @@ function App() {
                       {project.description.map((point, i) => (
                         <li key={i} className="text-gray-600 text-[10px] flex items-start leading-tight">
                           <span className="text-blue-400 mr-1.5 mt-0.5">•</span>
-                          <span>{point}</span>
+                          <span className="text-justify">{point}</span>
                         </li>
                       ))}
                     </ul>
