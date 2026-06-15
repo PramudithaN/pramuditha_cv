@@ -1,98 +1,123 @@
-**Pramuditha Nadun - CV**
+# pramuditha_cv
 
-Welcome to my personal CV website! This project showcases my skills, experience, education, and projects as a Software Engineering student and Associate Software Engineer. The CV is built using React and TypeScript, and it is deployed on GitHub Pages.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
-**Getting Started** ->
+> A personal CV website built with React and TypeScript, featuring a responsive design and PDF download functionality.
 
-Before you begin, ensure you have the following installed:
-Node.js (v16 or higher recommended)
-npm (usually comes with Node.js)
-Git
+---
 
-**Installation** ->
+## 📸 Preview
 
-Clone the repository: git clone https://github.com/PramudithaN/portfolio.git
-Navigate to the project directory: cd portfolio
-Install dependencies: npm install
+**CV Dashboard**
+![Preview](public/cvImg.png)
 
-**Development** -> 
+---
 
-Start the Local Development Server
-To start the development server and view the app in your browser: npm start
+## 📖 About This Project
 
-The app will be available at http://localhost:3000.
+This project is a professional digital CV designed to showcase my journey as a Software Engineering student and Associate Software Engineer. Built with **React 19** and **TypeScript**, it provides a clean, modern interface to explore my professional background, technical expertise, and academic achievements. The application includes a specialized feature to export the CV as a high-quality PDF directly from the browser.
 
-The development server supports hot reloading, so changes will automatically reflect in the browser.
+---
 
-**Build the Project**->
+## ✨ Features
 
-To create an optimized production build: npm run build
+- 👤 **Personal Profile** - Detailed introduction and professional title.
+- 📱 **Interactive Contact** - Quick access to GitHub, LinkedIn, and Email.
+- 🎓 **Education Timeline** - Comprehensive list of academic qualifications.
+- 💼 **Experience Tracking** - Detailed history of professional roles and responsibilities.
+- 🛠️ **Technical Expertise** - Categorized list of languages, frameworks, and tools.
+- 📄 **PDF Export** - Download a professional PDF version of the CV using `html2canvas` and `jsPDF`.
+- ⚡ **Responsive UI** - Fully optimized for mobile, tablet, and desktop views.
 
-The build files will be generated in the build folder.
-This folder contains the static files (HTML, CSS, JS) ready for deployment.
+---
 
-**Deployment**->
+## 🛠️ Tech Stack
 
-Deploy to GitHub Pages
-To deploy the app to GitHub Pages:
-Ensure the homepage field in package.json is set to your GitHub Pages URL: "homepage": "https://pramudithan.github.io/portfolio"
-Run the deployment command: npm run deploy
-This will build the project and push the build folder contents to the gh-pages branch.
+| Layer | Technology |
+|-------|-----------|
+| Framework | [React 19](https://reactjs.org/) |
+| Language | [TypeScript](https://www.typescriptlang.org/) |
+| Styling | [Tailwind CSS](https://tailwindcss.com/) |
+| Icons | [Lucide React](https://lucide.dev/) |
+| PDF Generation | [jsPDF](https://github.com/parallax/jsPDF) & [html2canvas](https://html2canvas.hertzen.com/) |
+| Deployment | [GitHub Pages](https://pages.github.com/) |
 
-**Enable GitHub Pages:**->
+---
 
-Go to your repository's Settings > Pages.
-Select the gh-pages branch as the source.
-Your app will be live at: https://pramudithan.github.io/portfolio
+## 📋 Prerequisites
 
-**Folder Structure**->
+- [Node.js](https://nodejs.org/) **v16.0.0 or higher**
+- [npm](https://www.npmjs.com/)
+- [Git](https://git-scm.com/)
 
-Here’s an overview of the project structure:
+---
 
-portfolio/
-├── public/                  # Static assets (e.g., index.html, favicon)
-├── src/                     # Source code
-│   ├── components/          # Reusable components
-│   ├── App.tsx              # Main application component
-│   ├── index.tsx            # Entry point
-│   └── styles/              # CSS or SCSS files
-├── package.json             # Project dependencies and scripts
+## ⚙️ Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/PramudithaN/pramuditha_cv.git
+cd pramuditha_cv
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Start the development server
+
+```bash
+npm start
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 📦 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Runs the app in development mode. |
+| `npm run build` | Builds the app for production to the `build` folder. |
+| `npm test` | Launches the test runner. |
+| `npm run deploy` | Deploys the application to GitHub Pages. |
+| `npm run eject` | Removes the single build dependency from your project. |
+
+---
+
+## 📁 Project Structure
+
+```
+pramuditha_cv/
+├── public/                  # Static assets and entry HTML
+│   ├── cvImg.png            # Preview image
+│   ├── index.html           # Main entry point
+│   └── manifest.json        # Web app manifest
+├── src/                     # Application source code
+│   ├── App.tsx              # Main CV component and logic
+│   ├── index.tsx            # React root rendering
+│   ├── App.css              # Main application styles
+│   └── index.css            # Global base styles
+├── tailwind.config.js       # Tailwind CSS configuration
 ├── tsconfig.json            # TypeScript configuration
-├── README.md                # Project documentation
-└── build/                   # Production build (generated after `npm run build`)
+└── package.json             # Dependencies and scripts
+```
 
-**Technologies Used**->
+---
 
-React - Frontend library
-TypeScript - Static typing
-GitHub Pages - Deployment
-npm - Package management
-Lucide Icons - Icon library
+## 🙋‍♂️ Connect with Me
 
-**Features**->
+- **GitHub**: [github.com/PramudithaN](https://github.com/PramudithaN)
+- **LinkedIn**: [linkedin.com/in/pramuditha-nadun-612b1b204](https://linkedin.com/in/pramuditha-nadun-612b1b204)
+- **Email**: pramudithanadun@gmail.com
 
-Personal Information: Displays my name, title, and a brief introduction.
-Contact Details: Includes phone, email, GitHub, LinkedIn, and address.
-Education: Lists my academic qualifications.
-Experience: Highlights my professional experience and key responsibilities.
-Technical Skills: Showcases my expertise in various technologies.
-Downloadable CV: Allows users to download my CV in PDF format.
-Responsive Design: Ensures the portfolio looks great on all devices.
+---
 
-**Contributing**->
-
-Contributions are welcome! Follow these steps:
-Fork the repository.
-Create a new branch: git checkout -b feature/your-feature-name
-Commit your changes: git commit -m "Add your feature"
-Push to the branch: git push origin feature/your-feature-name
-Open a pull request.
-
-**License**->
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-**Live Demo**->
-
-Check out the live version of my portfolio:
-👉 https://pramudithan.github.io/portfolio
+*Developed with ❤️ by Pramuditha Nadun.*
