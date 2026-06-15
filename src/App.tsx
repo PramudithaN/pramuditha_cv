@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Github, Linkedin, Mail, Download } from "lucide-react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
 function App() {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   const personalInfo = {
     name: "PRAMUDITHA NADUN",
     title: "ASSOCIATE SOFTWARE ENGINEER",
@@ -89,63 +91,83 @@ function App() {
   ];
 
   const handleDownloadPDF = () => {
-    const element = document.getElementById("resume-content");
-    if (element) {
-      // Force html2canvas to capture exactly at A4 pixel dimensions
-      html2canvas(element, { 
-        scale: 3, // Increased scale for crisper text
-        useCORS: true,
-        windowWidth: 794,
-        windowHeight: 1123,
-      }).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-        const imgWidth = 210;
-        const imgHeight = 297; 
-        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-        pdf.save("Pramuditha_Nadun_CV.pdf");
-      });
-    }
+    // 1. Set state to force desktop layout
+    setIsDownloading(true);
+
+    // 2. Wait slightly for the DOM to re-render with strict A4 dimensions
+    setTimeout(() => {
+      const element = document.getElementById("resume-content");
+      if (element) {
+        html2canvas(element, { 
+          scale: 3, 
+          useCORS: true,
+          windowWidth: 794,
+          windowHeight: 1123,
+        }).then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF("p", "mm", "a4");
+          const imgWidth = 210;
+          const imgHeight = 297; 
+          pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+          pdf.save("Pramuditha_Nadun_CV.pdf");
+          
+          // 3. Revert back to responsive mobile layout
+          setIsDownloading(false);
+        });
+      }
+    }, 300);
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 py-8 flex flex-col items-center overflow-auto">
+    <div className="min-h-screen bg-gray-200 py-8 px-4 sm:px-6 flex flex-col items-center overflow-auto">
       
       <button
         onClick={handleDownloadPDF}
-        className="mb-6 flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-shadow shadow-md hover:shadow-lg font-semibold"
+        disabled={isDownloading}
+        className={`mb-6 flex items-center text-white px-6 py-3 rounded-lg transition-shadow shadow-md font-semibold ${
+          isDownloading ? 'bg-blue-400 cursor-wait' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg'
+        }`}
       >
-        <Download className="w-5 h-5 mr-2" />
-        Download CV as PDF
+        {isDownloading ? (
+          "Generating PDF..."
+        ) : (
+          <>
+            <Download className="w-5 h-5 mr-2" />
+            Download CV as PDF
+          </>
+        )}
       </button>
 
-      {/* Changed to strict pixel dimensions equivalent to A4 (794px x 1123px) */}
+      {/* Responsive Container: 
+        If downloading, force strict 794x1123 A4 pixels. 
+        If viewing on screen, allow width to be 100% (up to 794px) and height to flow naturally.
+      */}
       <div 
         id="resume-content" 
-        className="bg-white shadow-2xl overflow-hidden box-border shrink-0"
-        style={{ width: '794px', height: '1123px' }}
+        className={`bg-white shadow-2xl box-border shrink-0 ${isDownloading ? 'overflow-hidden' : 'overflow-hidden sm:rounded-lg'}`}
+        style={isDownloading ? { width: '794px', height: '1123px' } : { width: '100%', maxWidth: '794px' }}
       >
-        <div className="p-8 h-full flex flex-col">
+        <div className="p-6 md:p-8 h-full flex flex-col">
           
           {/* Header Section */}
-          <div className="flex items-center mb-6 border-b pb-5 shrink-0">
+          <div className={`flex mb-5 border-b pb-4 shrink-0 ${isDownloading ? 'items-center flex-row text-left' : 'flex-col md:flex-row items-center text-center md:text-left'}`}>
             <img
               src={personalInfo.image}
               alt={personalInfo.name}
-              className="w-24 h-24 rounded-full object-cover mr-6 border-2 border-blue-50"
+              className={`rounded-full object-cover border-2 border-blue-50 ${isDownloading ? 'w-24 h-24 mr-6 mb-0' : 'w-28 h-28 mb-4 md:w-24 md:h-24 md:mb-0 md:mr-6'}`}
             />
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
                 {personalInfo.name}
               </h1>
-              <h2 className="text-lg font-semibold text-blue-600 mb-2">
+              <h2 className="text-base md:text-lg font-semibold text-blue-600 mb-2">
                 {personalInfo.title}
               </h2>
               <p className="text-gray-600 text-[11px] leading-snug max-w-2xl">
                 {personalInfo.intro}
               </p>
 
-              <div className="flex items-center space-x-4 mt-3">
+              <div className={`flex items-center space-x-3 md:space-x-4 mt-3 flex-wrap gap-y-2 ${isDownloading ? 'justify-start' : 'justify-center md:justify-start'}`}>
                 <a href={`https://${personalInfo.github}`} className="text-gray-500 flex items-center text-[10px]">
                   <Github className="w-3 h-3 mr-1" /> {personalInfo.githubUsername}
                 </a>
@@ -160,11 +182,11 @@ function App() {
           </div>
 
           {/* Main Content Grid */}
-          <div className="grid grid-cols-3 gap-6 flex-grow">
+          <div className={`grid gap-6 flex-grow ${isDownloading ? 'grid-cols-3' : 'grid-cols-1 md:grid-cols-3'}`}>
             
             {/* Left Column (Sidebar) */}
-            <div className="col-span-1 border-r pr-5">
-              <section className="mb-6">
+            <div className={`${isDownloading ? 'col-span-1 border-r pr-5' : 'col-span-1 md:border-r md:pr-5 border-b pb-5 md:border-b-0 md:pb-0'}`}>
+              <section className="mb-5">
                 <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Contact
                 </h3>
@@ -178,7 +200,7 @@ function App() {
                 </div>
               </section>
 
-              <section className="mb-6">
+              <section className="mb-5">
                 <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Skills
                 </h3>
@@ -207,7 +229,7 @@ function App() {
             </div>
 
             {/* Right Column (Experience & Projects) */}
-            <div className="col-span-2 pl-1">
+            <div className={`${isDownloading ? 'col-span-2 pl-1' : 'col-span-1 md:col-span-2 md:pl-1'}`}>
               <section className="mb-6">
                 <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Professional Experience
@@ -217,7 +239,7 @@ function App() {
                     <div className="absolute w-2 h-2 bg-blue-600 rounded-full -left-[5px] top-1.5"></div>
                     <div className="flex justify-between items-start mb-1">
                       <h4 className="text-[13px] font-bold text-gray-900">{exp.role}</h4>
-                      <span className="text-blue-600 font-semibold text-[10px] bg-blue-50 px-2 py-0.5 rounded">{exp.period}</span>
+                      <span className="text-blue-600 font-semibold text-[10px] bg-blue-50 px-2 py-0.5 rounded whitespace-nowrap ml-2">{exp.period}</span>
                     </div>
                     <p className="text-gray-700 font-semibold text-[11px] mb-1.5">{exp.company}</p>
                     <ul className="space-y-1">
