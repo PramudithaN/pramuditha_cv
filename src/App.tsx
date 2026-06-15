@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Download, Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { Download } from "lucide-react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -8,8 +8,8 @@ function App() {
 
   const personalInfo = {
     name: process.env.REACT_APP_NAME || "PRAMUDITHA NADUN",
-    title: process.env.REACT_APP_TITLE || "ASSOCIATE SOFTWARE ENGINEER & UI/UX SPECIALIST",
-    intro: process.env.REACT_APP_INTRO || "Associate Software Engineer with 5 years of combined academic and professional experience building scalable applications, highly interactive frontends, and robust backend systems.",
+    title: process.env.REACT_APP_TITLE || "ASSOCIATE SOFTWARE ENGINEER",
+    intro: process.env.REACT_APP_INTRO || "Associate Software Engineer with 5 years of combined academic and professional experience building scalable applications, highly interactive frontends, and robust backend systems. Specializing in React, TypeScript, and Spring Boot, with a strong foundation in UI/UX and visual design. Adept at bridging the gap between technical architecture and modern user experience, utilizing CI/CD pipelines to ensure seamless deployments. Proven experience in developing complex, data-driven architectures, distributed asynchronous systems, and predictive modeling algorithms.",
     email: process.env.REACT_APP_EMAIL || "pramudithanadun@gmail.com",
     github: process.env.REACT_APP_GITHUB || "github.com/PramudithaN",
     linkedin: process.env.REACT_APP_LINKEDIN || "linkedin.com/in/pramuditha-nadun-612b1b204",
@@ -30,7 +30,7 @@ function App() {
     {
       role: "Associate Software Engineer (Fusion X Team)",
       company: "LOLC Technologies",
-      period: "Hybrid | 2024 – Present",
+      period: "Hybrid | 2024 - Present",
       description: [
         "Develop and maintain enterprise-scale web applications using React and TypeScript, leveraging Redux for state management and Ant Design for modern, responsive UI components.",
         "Architect and optimize backend functionalities using Spring Boot, ensuring efficient data processing, secure user access control, and precise screen permissions.",
@@ -41,7 +41,7 @@ function App() {
     {
       role: "Trainee Software Engineer (Fusion Team)",
       company: "LOLC Technologies",
-      period: "Hybrid | Mar 2022 – Oct 2024",
+      period: "Hybrid | Mar 2022 - Oct 2024",
       description: [
         "Engineered interactive frontend components and responsive layouts, collaborating with cross-functional teams to translate business requirements into functional software solutions.",
         "Maintained and developed backend processes and reporting systems using Java and Oracle Forms.",
@@ -77,7 +77,7 @@ function App() {
     {
       degree: "BSc (Hons) Software Engineering",
       school: "University of Westminster, UK",
-      year: "Feb 2022 – 2026",
+      year: "Feb 2022 - 2026",
     },
   ];
 
@@ -136,53 +136,64 @@ function App() {
         }`}
         style={isDownloading ? { width: '816px', height: '1056px' } : { width: '100%', maxWidth: '850px' }}
       >
-        {/* Adjusted padding: extremely tight for PDF to fit 1 page, generous for Web */}
         <div className={`${isDownloading ? 'px-10 py-8' : 'p-8 sm:p-10 md:p-12'} h-full flex flex-col`}>
           
           {/* Header Section: Left-aligned info, Right-aligned image */}
-          <div className={`flex mb-8 border-b border-slate-100 pb-8 shrink-0 ${isDownloading ? 'flex-row justify-between items-start' : 'flex-col md:flex-row md:justify-between items-center md:items-start text-center md:text-left'}`}>
-            <div className="flex-grow pr-4">
-              <h1 className={`font-bold text-slate-900 tracking-tight uppercase ${isDownloading ? 'text-3xl mb-1' : 'text-3xl md:text-4xl mb-2'}`}>
+          <div className={`flex shrink-0 ${isDownloading ? 'mb-4 flex-row justify-between items-center text-left' : 'mb-8 flex-col md:flex-row md:justify-between items-center md:items-center text-center md:text-left'}`}>
+            <div className="flex-grow">
+              <h1 className={`font-bold text-slate-900 tracking-tight uppercase ${isDownloading ? 'text-2xl mb-1' : 'text-3xl md:text-4xl mb-2'}`}>
                 {personalInfo.name}
               </h1>
               
-              <h2 className={`font-semibold text-blue-600 ${isDownloading ? 'text-base mb-2' : 'text-lg md:text-xl mb-3 mt-1'}`}>
-                {personalInfo.title}
-              </h2>
-
-              <p className={`text-slate-700 text-justify ${isDownloading ? 'text-[10px] leading-tight mb-3' : 'text-sm md:text-base leading-relaxed mb-5'}`}>
-                {personalInfo.intro}
-              </p>
-
-              {/* Social Links Row */}
-              <div className={`flex items-center flex-wrap gap-y-2 ${isDownloading ? 'space-x-4 mt-2 justify-start' : 'gap-x-4 sm:gap-x-6 mt-4 justify-center md:justify-start'}`}>
-                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className={`flex items-center leading-none text-slate-500 hover:text-blue-600 transition-colors ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>
-                  <Github className={`${isDownloading ? 'w-3 h-3 mr-1 shrink-0' : 'w-4 h-4 mr-2'}`} />
-                  <span>{personalInfo.github.split('/').pop()}</span>
-                </a>
-                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className={`flex items-center leading-none text-slate-500 hover:text-blue-600 transition-colors ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>
-                  <Linkedin className={`${isDownloading ? 'w-3 h-3 mr-1 shrink-0' : 'w-4 h-4 mr-2'}`} />
-                  <span>LinkedIn</span>
-                </a>
-                <a href={`mailto:${personalInfo.email}`} className={`flex items-center leading-none text-slate-500 hover:text-blue-600 transition-colors ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>
-                  <Mail className={`${isDownloading ? 'w-3 h-3 mr-1 shrink-0' : 'w-4 h-4 mr-2'}`} />
-                  <span>{personalInfo.email}</span>
+              {/* Contact Info Row 1 */}
+              <div className={`flex flex-wrap justify-center md:justify-start items-center text-slate-600 ${isDownloading ? 'text-[10px] gap-1.5 mb-0.5' : 'text-sm gap-2 sm:gap-3 mb-1.5'}`}>
+                <span>{personalInfo.address}</span>
+                <span className="text-slate-400">|</span>
+                <span>{personalInfo.phone}</span>
+                <span className="text-slate-400">|</span>
+                <a href={`mailto:${personalInfo.email}`} className="hover:text-blue-600 transition-colors">
+                  {personalInfo.email}
                 </a>
               </div>
+              
+              {/* Contact Info Row 2 */}
+              <div className={`flex flex-wrap justify-center md:justify-start items-center text-slate-600 ${isDownloading ? 'text-[10px] gap-1.5 mb-2.5' : 'text-sm gap-2 sm:gap-3 mb-4'}`}>
+                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
+                  {personalInfo.github}
+                </a>
+                <span className="text-slate-400">|</span>
+                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
+                  {personalInfo.linkedin}
+                </a>
+              </div>
+
+              <h2 className={`font-bold text-slate-900 uppercase tracking-wide ${isDownloading ? 'text-[11px]' : 'text-base md:text-lg'}`}>
+                {personalInfo.title}
+              </h2>
             </div>
 
             <img
               src={personalInfo.image}
               alt={personalInfo.name}
               className={`rounded-full object-cover border-2 border-slate-100 shadow-sm shrink-0 ${
-                isDownloading ? 'w-24 h-24 ml-8' : 'w-32 h-32 mt-6 md:mt-0 md:w-28 md:h-28 md:ml-8'
+                isDownloading ? 'w-20 h-20 ml-4' : 'w-24 h-24 mt-6 md:mt-0 md:w-28 md:h-28 md:ml-6'
               }`}
             />
           </div>
 
+          {/* Section: Professional Summary */}
+          <section className={isDownloading ? 'mb-4' : 'mb-8'}>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
+              Professional Summary
+            </h3>
+            <p className={`text-slate-700 text-justify ${isDownloading ? 'text-[10px] leading-snug' : 'text-sm md:text-base leading-relaxed'}`}>
+              {personalInfo.intro}
+            </p>
+          </section>
+
           {/* Section: Technical Skills */}
           <section className={isDownloading ? 'mb-4' : 'mb-8'}>
-            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-xs mb-2 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
               Technical Skills
             </h3>
             <ul className={isDownloading ? 'space-y-0.5' : 'space-y-2'}>
@@ -199,7 +210,7 @@ function App() {
 
           {/* Section: Professional Experience */}
           <section className={isDownloading ? 'mb-4' : 'mb-8'}>
-            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-xs mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
               Professional Experience
             </h3>
             <div className={isDownloading ? 'space-y-3' : 'space-y-6'}>
@@ -207,7 +218,7 @@ function App() {
                 <div key={index}>
                   <div className={`flex flex-col sm:flex-row sm:justify-between sm:items-end ${isDownloading ? 'mb-1' : 'mb-2'}`}>
                     <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[11px]' : 'text-base md:text-lg'}`}>
-                      {exp.company} <span className="font-normal mx-1">|</span> {exp.role}
+                      {exp.company} <span className="font-normal mx-1 text-slate-400">|</span> {exp.role}
                     </h4>
                   </div>
                   <p className={`italic text-slate-600 ${isDownloading ? 'text-[10px] mb-1' : 'text-sm mb-3 font-medium'}`}>
@@ -228,14 +239,14 @@ function App() {
 
           {/* Section: Selected Projects & Research */}
           <section className={isDownloading ? 'mb-4' : 'mb-8'}>
-            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-xs mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
               Selected Projects & Research
             </h3>
             <div className={isDownloading ? 'space-y-3' : 'space-y-6'}>
               {projects.map((project, index) => (
                 <div key={index}>
                   <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[11px] mb-1' : 'text-base md:text-lg mb-2'}`}>
-                    {project.title} <span className="font-normal mx-1">|</span> <span className="italic font-normal">{project.tech}</span>
+                    {project.title} <span className="font-normal mx-1 text-slate-400">|</span> <span className="italic font-normal">{project.tech}</span>
                   </h4>
                   <ul className={isDownloading ? 'space-y-1' : 'space-y-2'}>
                     {project.description.map((point, i) => (
@@ -252,7 +263,7 @@ function App() {
 
           {/* Section: Education */}
           <section>
-            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-xs mb-2 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
               Education
             </h3>
             {education.map((edu, index) => (
@@ -262,7 +273,7 @@ function App() {
                     {edu.degree}
                   </h4>
                   <p className={`text-slate-700 ${isDownloading ? 'text-[10px] mt-0.5' : 'text-sm mt-1'}`}>
-                    {edu.school} <span className="mx-1">|</span> {edu.year}
+                    {edu.school} <span className="mx-1 text-slate-400">|</span> {edu.year}
                   </p>
                 </div>
               </div>
