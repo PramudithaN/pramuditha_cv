@@ -91,31 +91,28 @@ function App() {
   ];
 
   const handleDownloadPDF = () => {
-    // 1. Set state to force desktop layout
     setIsDownloading(true);
 
-    // 2. Wait slightly for the DOM to re-render with strict US Letter dimensions
     setTimeout(() => {
       const element = document.getElementById("resume-content");
       if (element) {
         html2canvas(element, { 
           scale: 3, 
           useCORS: true,
-          windowWidth: 816, // Letter pixel width
-          windowHeight: 1056, // Letter pixel height
+          windowWidth: 816, 
+          windowHeight: 1056,
+          scrollY: 0, // Prevents browser scroll position from clipping the top/bottom
+          scrollX: 0
         }).then((canvas) => {
           const imgData = canvas.toDataURL("image/png");
-          // Use 'letter' format explicitly
           const pdf = new jsPDF("p", "mm", "letter");
           
-          // Strict US Letter dimensions in mm
           const imgWidth = 215.9; 
           const imgHeight = 279.4; 
           
           pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
           pdf.save("Pramuditha_Nadun_CV.pdf");
           
-          // 3. Revert back to responsive mobile layout
           setIsDownloading(false);
         });
       }
@@ -142,36 +139,34 @@ function App() {
         )}
       </button>
 
-      {/* Responsive Container: 
-        If downloading, force strict 816x1056 Letter pixels. 
-        If viewing on screen, allow width to flow naturally up to 816px.
-      */}
       <div 
         id="resume-content" 
         className={`bg-white shadow-2xl box-border shrink-0 ${isDownloading ? 'overflow-hidden' : 'overflow-hidden sm:rounded-lg'}`}
         style={isDownloading ? { width: '816px', height: '1056px' } : { width: '100%', maxWidth: '816px' }}
       >
-        <div className="p-6 md:p-8 h-full flex flex-col">
+        {/* Adjusted padding to p-6 (24px) from p-8 to reclaim vertical space */}
+        <div className="p-6 h-full flex flex-col">
           
-          {/* Header Section */}
-          <div className={`flex mb-5 border-b pb-4 shrink-0 ${isDownloading ? 'items-center flex-row text-left' : 'flex-col md:flex-row items-center text-center md:text-left'}`}>
+          {/* Header Section: Tightened margins to mb-4 pb-3 */}
+          <div className={`flex mb-4 border-b pb-3 shrink-0 ${isDownloading ? 'items-center flex-row text-left' : 'flex-col md:flex-row items-center text-center md:text-left'}`}>
             <img
               src={personalInfo.image}
               alt={personalInfo.name}
-              className={`rounded-full object-cover border-2 border-blue-50 ${isDownloading ? 'w-24 h-24 mr-6 mb-0' : 'w-28 h-28 mb-4 md:w-24 md:h-24 md:mb-0 md:mr-6'}`}
+              className={`rounded-full object-cover border-2 border-blue-50 ${isDownloading ? 'w-20 h-20 mr-5 mb-0' : 'w-24 h-24 mb-4 md:w-20 md:h-20 md:mb-0 md:mr-5'}`}
             />
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
                 {personalInfo.name}
               </h1>
-              <h2 className="text-base md:text-lg font-semibold text-blue-600 mb-2">
+              <h2 className="text-base md:text-lg font-semibold text-blue-600 mb-1">
                 {personalInfo.title}
               </h2>
-              <p className="text-gray-600 text-[11px] leading-snug max-w-2xl">
+              {/* Reduced text size to 10px and tightened line height */}
+              <p className="text-gray-600 text-[10px] leading-tight max-w-2xl">
                 {personalInfo.intro}
               </p>
 
-              <div className={`flex items-center space-x-3 md:space-x-4 mt-3 flex-wrap gap-y-2 ${isDownloading ? 'justify-start' : 'justify-center md:justify-start'}`}>
+              <div className={`flex items-center space-x-3 md:space-x-4 mt-2 flex-wrap gap-y-2 ${isDownloading ? 'justify-start' : 'justify-center md:justify-start'}`}>
                 <a href={`https://${personalInfo.github}`} className="text-gray-500 flex items-center text-[10px]">
                   <Github className="w-3 h-3 mr-1" /> {personalInfo.githubUsername}
                 </a>
@@ -188,67 +183,67 @@ function App() {
           {/* Main Content Grid */}
           <div className={`grid gap-6 flex-grow ${isDownloading ? 'grid-cols-3' : 'grid-cols-1 md:grid-cols-3'}`}>
             
-            {/* Left Column (Sidebar) */}
+            {/* Left Column */}
             <div className={`${isDownloading ? 'col-span-1 border-r pr-5' : 'col-span-1 md:border-r md:pr-5 border-b pb-5 md:border-b-0 md:pb-0'}`}>
-              <section className="mb-5">
-                <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+              <section className="mb-4">
+                <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Contact
                 </h3>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {contactDetails.map((contact, index) => (
                     <div key={index}>
                       <h4 className="text-[9px] font-bold text-gray-400 uppercase">{contact.type}</h4>
-                      <p className="text-gray-700 text-[11px] break-all">{contact.value}</p>
+                      <p className="text-gray-700 text-[10px] break-all">{contact.value}</p>
                     </div>
                   ))}
                 </div>
               </section>
 
-              <section className="mb-5">
-                <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+              <section className="mb-4">
+                <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Skills
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {technicalSkills.map((skillGroup, index) => (
                     <div key={index}>
-                      <h4 className="text-[11px] font-bold text-gray-800">{skillGroup.category}</h4>
-                      <p className="text-gray-600 text-[10px] leading-tight">{skillGroup.skills}</p>
+                      <h4 className="text-[10px] font-bold text-gray-800">{skillGroup.category}</h4>
+                      <p className="text-gray-600 text-[9px] leading-tight">{skillGroup.skills}</p>
                     </div>
                   ))}
                 </div>
               </section>
 
               <section>
-                <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+                <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Education
                 </h3>
                 {education.map((edu, index) => (
                   <div key={index}>
-                    <h4 className="text-[11px] font-bold text-gray-900">{edu.degree}</h4>
-                    <p className="text-gray-600 text-[10px]">{edu.school}</p>
-                    <p className="text-blue-600 font-medium text-[10px]">{edu.year}</p>
+                    <h4 className="text-[10px] font-bold text-gray-900">{edu.degree}</h4>
+                    <p className="text-gray-600 text-[9px]">{edu.school}</p>
+                    <p className="text-blue-600 font-medium text-[9px]">{edu.year}</p>
                   </div>
                 ))}
               </section>
             </div>
 
-            {/* Right Column (Experience & Projects) */}
+            {/* Right Column */}
             <div className={`${isDownloading ? 'col-span-2 pl-1' : 'col-span-1 md:col-span-2 md:pl-1'}`}>
-              <section className="mb-6">
-                <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+              <section className="mb-4">
+                <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
                   Professional Experience
                 </h3>
                 {experience.map((exp, index) => (
-                  <div key={index} className="mb-4 relative pl-3 border-l-2 border-gray-100">
+                  <div key={index} className="mb-3 relative pl-3 border-l-2 border-gray-100">
                     <div className="absolute w-2 h-2 bg-blue-600 rounded-full -left-[5px] top-1.5"></div>
-                    <div className="flex justify-between items-start mb-1">
-                      <h4 className="text-[13px] font-bold text-gray-900">{exp.role}</h4>
-                      <span className="text-blue-600 font-semibold text-[10px] bg-blue-50 px-2 py-0.5 rounded whitespace-nowrap ml-2">{exp.period}</span>
+                    <div className="flex justify-between items-start mb-0.5">
+                      <h4 className="text-[12px] font-bold text-gray-900">{exp.role}</h4>
+                      <span className="text-blue-600 font-semibold text-[9px] bg-blue-50 px-2 py-0.5 rounded whitespace-nowrap ml-2">{exp.period}</span>
                     </div>
-                    <p className="text-gray-700 font-semibold text-[11px] mb-1.5">{exp.company}</p>
+                    <p className="text-gray-700 font-semibold text-[10px] mb-1.5">{exp.company}</p>
                     <ul className="space-y-1">
                       {exp.description.map((point, i) => (
-                        <li key={i} className="text-gray-600 text-[11px] flex items-start leading-snug">
+                        <li key={i} className="text-gray-600 text-[10px] flex items-start leading-tight">
                           <span className="text-blue-600 mr-1.5 mt-0.5">•</span>
                           <span>{point}</span>
                         </li>
@@ -263,12 +258,12 @@ function App() {
                   Selected Projects
                 </h3>
                 {projects.map((project, index) => (
-                  <div key={index} className="mb-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <h4 className="text-[13px] font-bold text-gray-900 mb-0.5">{project.title}</h4>
-                    <p className="text-blue-600 text-[9px] font-mono mb-2 uppercase tracking-tight">{project.tech}</p>
-                    <ul className="space-y-1">
+                  <div key={index} className="mb-2 bg-gray-50 p-2.5 rounded-lg border border-gray-100">
+                    <h4 className="text-[12px] font-bold text-gray-900 mb-0.5">{project.title}</h4>
+                    <p className="text-blue-600 text-[8px] font-mono mb-1.5 uppercase tracking-tight">{project.tech}</p>
+                    <ul className="space-y-0.5">
                       {project.description.map((point, i) => (
-                        <li key={i} className="text-gray-600 text-[11px] flex items-start leading-snug">
+                        <li key={i} className="text-gray-600 text-[10px] flex items-start leading-tight">
                           <span className="text-blue-400 mr-1.5 mt-0.5">•</span>
                           <span>{point}</span>
                         </li>
