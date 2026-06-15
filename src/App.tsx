@@ -6,7 +6,7 @@ import jsPDF from "jspdf";
 function App() {
   const personalInfo = {
     name: "PRAMUDITHA NADUN",
-    title: "ASSOCIATE SOFTWARE ENGINEER & UI/UX SPECIALIST",
+    title: "ASSOCIATE SOFTWARE ENGINEER",
     intro:
       "Associate Software Engineer with 5 years of combined academic and professional experience building scalable applications, highly interactive frontends, and robust backend systems. Specializing in React, TypeScript, and Spring Boot, with a strong foundation in UI/UX and visual design. Adept at bridging the gap between technical architecture and modern user experience, utilizing CI/CD pipelines to ensure seamless deployments. Proven experience in developing complex, data-driven architectures, distributed asynchronous systems, and predictive modeling algorithms.",
     image: "https://avatars.githubusercontent.com/u/79605208?v=4",

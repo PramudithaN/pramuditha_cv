@@ -2,7 +2,7 @@
 Nugegoda, Sri Lanka | +94-713-052-556 | pramudithanadun@gmail.com 
 github.com/PramudithaN | linkedin.com/in/pramuditha-nadun-612b1b204
 
-**ASSOCIATE SOFTWARE ENGINEER & UI/UX SPECIALIST**
+**ASSOCIATE SOFTWARE ENGINEER**
 
 **PROFESSIONAL SUMMARY**
 Associate Software Engineer with 5 years of combined academic and professional experience building scalable applications, highly interactive frontends, and robust backend systems. Specializing in React, TypeScript, and Spring Boot, with a strong foundation in UI/UX and visual design. Adept at bridging the gap between technical architecture and modern user experience, utilizing CI/CD pipelines to ensure seamless deployments. Proven experience in developing complex, data-driven architectures, distributed asynchronous systems, and predictive modeling algorithms.
