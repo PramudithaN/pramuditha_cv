@@ -1,4 +1,4 @@
-# pramuditha_cv
+# Digital-CV
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
@@ -66,15 +66,13 @@ cd pramuditha_cv
 ### 2. Install dependencies
 
 ```bash
-npm install
-# or
 pnpm install
 ```
 
 ### 3. Start the development server
 
 ```bash
-npm start
+pnpm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.

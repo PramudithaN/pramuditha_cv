@@ -87,6 +87,19 @@ function App() {
     setTimeout(() => {
       const element = document.getElementById("resume-content");
       if (element) {
+        // First capture the positions of all links relative to the resume-content container
+        const containerRect = element.getBoundingClientRect();
+        const links = Array.from(element.querySelectorAll('a')).map(link => {
+          const rect = link.getBoundingClientRect();
+          return {
+            url: link.href,
+            x: rect.left - containerRect.left,
+            y: rect.top - containerRect.top,
+            w: rect.width,
+            h: rect.height
+          };
+        });
+
         html2canvas(element, { 
           scale: 3, 
           useCORS: true,
@@ -102,8 +115,22 @@ function App() {
           const imgHeight = 279.4; 
           
           pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-          pdf.save("Pramuditha_Nadun_CV.pdf");
+
+          // Add interactive links on top of the image
+          // Calculate scale factor from pixels to mm
+          const pxToMm = imgWidth / 816; // Based on windowWidth used in html2canvas
           
+          links.forEach(link => {
+            pdf.link(
+              link.x * pxToMm, 
+              link.y * pxToMm, 
+              link.w * pxToMm, 
+              link.h * pxToMm, 
+              { url: link.url }
+            );
+          });
+
+          pdf.save("Pramuditha_Nadun_CV.pdf");
           setIsDownloading(false);
         });
       }
@@ -141,33 +168,33 @@ function App() {
           {/* Header Section: Left-aligned info, Right-aligned image */}
           <div className={`flex shrink-0 ${isDownloading ? 'mb-4 flex-row justify-between items-center text-left' : 'mb-8 flex-col md:flex-row md:justify-between items-center md:items-center text-center md:text-left'}`}>
             <div className="flex-grow">
-              <h1 className={`font-bold text-slate-900 tracking-tight uppercase ${isDownloading ? 'text-2xl mb-1' : 'text-3xl md:text-4xl mb-2'}`}>
+              <h1 className={`font-bold text-[#2563eb] tracking-tight uppercase ${isDownloading ? 'text-2xl mb-1' : 'text-3xl md:text-4xl mb-2'}`}>
                 {personalInfo.name}
               </h1>
               
               {/* Contact Info Row 1 */}
-              <div className={`flex flex-wrap justify-center md:justify-start items-center text-slate-600 ${isDownloading ? 'text-[10px] gap-1.5 mb-0.5' : 'text-sm gap-2 sm:gap-3 mb-1.5'}`}>
+              <div className={`flex flex-wrap justify-center md:justify-start items-center text-black ${isDownloading ? 'text-[10px] gap-1.5 mb-0.5' : 'text-sm gap-2 sm:gap-3 mb-1.5'}`}>
                 <span>{personalInfo.address}</span>
                 <span className="text-slate-400">|</span>
                 <span>{personalInfo.phone}</span>
                 <span className="text-slate-400">|</span>
-                <a href={`mailto:${personalInfo.email}`} className="hover:text-blue-600 transition-colors">
+                <a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:text-blue-800 transition-colors">
                   {personalInfo.email}
                 </a>
               </div>
               
               {/* Contact Info Row 2 */}
-              <div className={`flex flex-wrap justify-center md:justify-start items-center text-slate-600 ${isDownloading ? 'text-[10px] gap-1.5 mb-2.5' : 'text-sm gap-2 sm:gap-3 mb-4'}`}>
-                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
+              <div className={`flex flex-wrap justify-center md:justify-start items-center text-black ${isDownloading ? 'text-[10px] gap-1.5 mb-2.5' : 'text-sm gap-2 sm:gap-3 mb-4'}`}>
+                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
                   {personalInfo.github}
                 </a>
                 <span className="text-slate-400">|</span>
-                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
+                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
                   {personalInfo.linkedin}
                 </a>
               </div>
 
-              <h2 className={`font-bold text-slate-900 uppercase tracking-wide ${isDownloading ? 'text-[11px]' : 'text-base md:text-lg'}`}>
+              <h2 className={`font-bold text-black uppercase tracking-wide ${isDownloading ? 'text-[11px]' : 'text-base md:text-lg'}`}>
                 {personalInfo.title}
               </h2>
             </div>
@@ -183,25 +210,25 @@ function App() {
 
           {/* Section: Professional Summary */}
           <section className={isDownloading ? 'mb-4' : 'mb-8'}>
-            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
+            <h3 className={`font-bold text-[#2563eb] uppercase tracking-wider border-b border-blue-100 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
               Professional Summary
             </h3>
-            <p className={`text-slate-700 text-justify ${isDownloading ? 'text-[10px] leading-snug' : 'text-sm md:text-base leading-relaxed'}`}>
+            <p className={`text-black text-justify ${isDownloading ? 'text-[10px] leading-snug' : 'text-sm md:text-base leading-relaxed'}`}>
               {personalInfo.intro}
             </p>
           </section>
 
           {/* Section: Technical Skills */}
           <section className={isDownloading ? 'mb-4' : 'mb-8'}>
-            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
+            <h3 className={`font-bold text-[#2563eb] uppercase tracking-wider border-b border-blue-100 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
               Technical Skills
             </h3>
             <ul className={isDownloading ? 'space-y-0.5' : 'space-y-2'}>
               {technicalSkills.map((skill, index) => (
-                <li key={index} className={`text-slate-700 flex items-start ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base'}`}>
+                <li key={index} className={`text-black flex items-start ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base'}`}>
                   <span className={`mr-1.5 ${isDownloading ? 'mt-[1px]' : 'mt-1'}`}>•</span>
                   <span>
-                    <strong className="font-bold text-slate-900">{skill.category}:</strong> {skill.skills}
+                    <strong className="font-bold text-black">{skill.category}:</strong> {skill.skills}
                   </span>
                 </li>
               ))}
@@ -210,14 +237,14 @@ function App() {
 
           {/* Section: Professional Experience */}
           <section className={isDownloading ? 'mb-4' : 'mb-8'}>
-            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
+            <h3 className={`font-bold text-[#2563eb] uppercase tracking-wider border-b border-blue-100 ${isDownloading ? 'text-[11px] mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
               Professional Experience
             </h3>
             <div className={isDownloading ? 'space-y-3' : 'space-y-6'}>
               {experience.map((exp, index) => (
                 <div key={index}>
                   <div className={`flex flex-col sm:flex-row sm:justify-between sm:items-end ${isDownloading ? 'mb-1' : 'mb-2'}`}>
-                    <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[11px]' : 'text-base md:text-lg'}`}>
+                    <h4 className={`font-bold text-black ${isDownloading ? 'text-[11px]' : 'text-base md:text-lg'}`}>
                       {exp.company} <span className="font-normal mx-1 text-slate-400">|</span> {exp.role}
                     </h4>
                   </div>
@@ -226,7 +253,7 @@ function App() {
                   </p>
                   <ul className={isDownloading ? 'space-y-1' : 'space-y-2'}>
                     {exp.description.map((point, i) => (
-                      <li key={i} className={`text-slate-700 flex items-start text-justify ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base leading-relaxed'}`}>
+                      <li key={i} className={`text-black flex items-start text-justify ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base leading-relaxed'}`}>
                         <span className={`mr-1.5 ${isDownloading ? 'mt-[1px]' : 'mt-1.5 text-[10px]'}`}>•</span>
                         <span>{point}</span>
                       </li>
@@ -239,18 +266,18 @@ function App() {
 
           {/* Section: Selected Projects & Research */}
           <section className={isDownloading ? 'mb-4' : 'mb-8'}>
-            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
+            <h3 className={`font-bold text-[#2563eb] uppercase tracking-wider border-b border-blue-100 ${isDownloading ? 'text-[11px] mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
               Selected Projects & Research
             </h3>
             <div className={isDownloading ? 'space-y-3' : 'space-y-6'}>
               {projects.map((project, index) => (
                 <div key={index}>
-                  <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[11px] mb-1' : 'text-base md:text-lg mb-2'}`}>
+                  <h4 className={`font-bold text-black ${isDownloading ? 'text-[11px] mb-1' : 'text-base md:text-lg mb-2'}`}>
                     {project.title} <span className="font-normal mx-1 text-slate-400">|</span> <span className="italic font-normal">{project.tech}</span>
                   </h4>
                   <ul className={isDownloading ? 'space-y-1' : 'space-y-2'}>
                     {project.description.map((point, i) => (
-                      <li key={i} className={`text-slate-700 flex items-start text-justify ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base leading-relaxed'}`}>
+                      <li key={i} className={`text-black flex items-start text-justify ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base leading-relaxed'}`}>
                         <span className={`mr-1.5 ${isDownloading ? 'mt-[1px]' : 'mt-1.5 text-[10px]'}`}>•</span>
                         <span>{point}</span>
                       </li>
@@ -263,16 +290,16 @@ function App() {
 
           {/* Section: Education */}
           <section>
-            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
+            <h3 className={`font-bold text-[#2563eb] uppercase tracking-wider border-b border-blue-100 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
               Education
             </h3>
             {education.map((edu, index) => (
               <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
                 <div>
-                  <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[11px]' : 'text-base'}`}>
+                  <h4 className={`font-bold text-black ${isDownloading ? 'text-[11px]' : 'text-base'}`}>
                     {edu.degree}
                   </h4>
-                  <p className={`text-slate-700 ${isDownloading ? 'text-[10px] mt-0.5' : 'text-sm mt-1'}`}>
+                  <p className={`text-black ${isDownloading ? 'text-[10px] mt-0.5' : 'text-sm mt-1'}`}>
                     {edu.school} <span className="mx-1 text-slate-400">|</span> {edu.year}
                   </p>
                 </div>
