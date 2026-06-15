@@ -17,7 +17,7 @@ function App() {
     githubUsername: "PramudithaN",
     linkedin: "linkedin.com/in/pramuditha-nadun-612b1b204",
     phone: "+94-713-052-556",
-    address: "Nugegoda, Sri Lanka",
+    address: "63/9,Gallage Mawatha, Mirihana, Nugegoda, Sri Lanka",
   };
 
   const contactDetails = [
