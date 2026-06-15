@@ -101,7 +101,7 @@ function App() {
           useCORS: true,
           windowWidth: 816, 
           windowHeight: 1056,
-          scrollY: 0, // Prevents browser scroll position from clipping the top/bottom
+          scrollY: 0,
           scrollX: 0
         }).then((canvas) => {
           const imgData = canvas.toDataURL("image/png");
@@ -116,17 +116,21 @@ function App() {
           setIsDownloading(false);
         });
       }
-    }, 300);
+    }, 600);
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 py-8 px-4 sm:px-6 flex flex-col items-center overflow-auto">
+    // Softer background for modern web feel
+    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 md:py-12 flex flex-col items-center overflow-auto font-sans text-slate-800">
       
+      {/* Modernized Download Button */}
       <button
         onClick={handleDownloadPDF}
         disabled={isDownloading}
-        className={`mb-6 flex items-center text-white px-6 py-3 rounded-lg transition-shadow shadow-md font-semibold ${
-          isDownloading ? 'bg-blue-400 cursor-wait' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg'
+        className={`mb-8 flex items-center text-white px-8 py-3.5 rounded-full transition-all duration-300 font-semibold shadow-lg ${
+          isDownloading 
+            ? 'bg-blue-400 cursor-wait shadow-none' 
+            : 'bg-blue-600 hover:bg-blue-700 hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95'
         }`}
       >
         {isDownloading ? (
@@ -139,113 +143,129 @@ function App() {
         )}
       </button>
 
+      {/* Main Container */}
       <div 
         id="resume-content" 
-        className={`bg-white shadow-2xl box-border shrink-0 ${isDownloading ? 'overflow-hidden' : 'overflow-hidden sm:rounded-lg'}`}
-        style={isDownloading ? { width: '816px', height: '1056px' } : { width: '100%', maxWidth: '816px' }}
+        className={`bg-white box-border shrink-0 transition-all duration-300 ${
+          isDownloading 
+            ? 'overflow-hidden rounded-none shadow-none' 
+            : 'overflow-hidden rounded-2xl shadow-xl border border-slate-100/50'
+        }`}
+        style={isDownloading ? { width: '816px', height: '1056px' } : { width: '100%', maxWidth: '900px' }}
       >
-        {/* Adjusted padding to p-6 (24px) from p-8 to reclaim vertical space */}
-        <div className="p-6 h-full flex flex-col">
+        <div className={`${isDownloading ? 'p-6' : 'p-8 sm:p-10 md:p-12'} h-full flex flex-col`}>
           
-          {/* Header Section: Tightened margins to mb-4 pb-3 */}
-          <div className={`flex mb-4 border-b pb-3 shrink-0 ${isDownloading ? 'items-center flex-row text-left' : 'flex-col md:flex-row items-center text-center md:text-left'}`}>
+          {/* Header Section */}
+          <div className={`flex shrink-0 ${isDownloading ? 'mb-4 border-b pb-3 items-center flex-row text-left' : 'mb-8 md:mb-10 border-b border-slate-100 pb-8 flex-col md:flex-row items-center text-center md:text-left'}`}>
             <img
               src={personalInfo.image}
               alt={personalInfo.name}
-              className={`rounded-full object-cover border-2 border-blue-50 ${isDownloading ? 'w-20 h-20 mr-5 mb-0' : 'w-24 h-24 mb-4 md:w-20 md:h-20 md:mb-0 md:mr-5'}`}
+              className={`rounded-full object-cover border-2 border-slate-100 shadow-sm ${
+                isDownloading ? 'w-20 h-20 mr-5 mb-0' : 'w-32 h-32 mb-5 md:w-28 md:h-28 md:mb-0 md:mr-8'
+              }`}
             />
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+              <h1 className={`font-bold text-slate-900 tracking-tight ${isDownloading ? 'text-2xl' : 'text-3xl md:text-4xl'}`}>
                 {personalInfo.name}
               </h1>
-              <h2 className="text-base md:text-lg font-semibold text-blue-600 mb-1">
+              <h2 className={`font-semibold text-blue-600 ${isDownloading ? 'text-base mb-1' : 'text-lg md:text-xl mb-3 mt-1'}`}>
                 {personalInfo.title}
               </h2>
-              {/* Reduced text size to 10px and tightened line height */}
-              <p className="text-gray-600 text-[10px] leading-tight max-w-2xl text-justify">
+              <p className={`text-slate-600 max-w-2xl ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base leading-relaxed'}`}>
                 {personalInfo.intro}
               </p>
 
-              <div className={`flex items-center space-x-3 md:space-x-4 mt-2 flex-wrap gap-y-2 ${isDownloading ? 'justify-start' : 'justify-center md:justify-start'}`}>
-                <a href={`https://${personalInfo.github}`} className="text-gray-500 flex items-center text-[10px]">
-                  <Github className="w-3 h-3 mr-1" /> {personalInfo.githubUsername}
+              {/* Social Links */}
+              <div className={`flex items-center flex-wrap gap-y-2 ${isDownloading ? 'space-x-4 mt-2 justify-start' : 'gap-x-4 sm:gap-x-6 mt-5 justify-center md:justify-start'}`}>
+                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className={`flex items-center leading-none text-slate-500 hover:text-blue-600 transition-colors ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>
+                  <Github className={`${isDownloading ? 'w-3 h-3 mr-1 shrink-0' : 'w-4 h-4 mr-2'}`} /> 
+                  <span className={isDownloading ? "-mt-[1px]" : ""}>{personalInfo.githubUsername}</span>
                 </a>
-                <a href={`https://${personalInfo.linkedin}`} className="text-gray-500 flex items-center text-[10px]">
-                  <Linkedin className="w-3 h-3 mr-1" /> LinkedIn
+                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className={`flex items-center leading-none text-slate-500 hover:text-blue-600 transition-colors ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>
+                  <Linkedin className={`${isDownloading ? 'w-3 h-3 mr-1 shrink-0' : 'w-4 h-4 mr-2'}`} /> 
+                  <span className={isDownloading ? "-mt-[1px]" : ""}>LinkedIn</span>
                 </a>
-                <a href={`mailto:${personalInfo.email}`} className="text-gray-500 flex items-center text-[10px]">
-                  <Mail className="w-3 h-3 mr-1" /> {personalInfo.email}
+                <a href={`mailto:${personalInfo.email}`} className={`flex items-center leading-none text-slate-500 hover:text-blue-600 transition-colors ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>
+                  <Mail className={`${isDownloading ? 'w-3 h-3 mr-1 shrink-0' : 'w-4 h-4 mr-2'}`} /> 
+                  <span className={isDownloading ? "-mt-[1px]" : ""}>{personalInfo.email}</span>
                 </a>
               </div>
             </div>
           </div>
 
           {/* Main Content Grid */}
-          <div className={`grid gap-6 flex-grow ${isDownloading ? 'grid-cols-3' : 'grid-cols-1 md:grid-cols-3'}`}>
+          <div className={`grid flex-grow ${isDownloading ? 'gap-6 grid-cols-3' : 'gap-8 md:gap-10 grid-cols-1 md:grid-cols-3'}`}>
             
             {/* Left Column */}
-            <div className={`${isDownloading ? 'col-span-1 border-r pr-5' : 'col-span-1 md:border-r md:pr-5 border-b pb-5 md:border-b-0 md:pb-0'}`}>
-              <section className="mb-4">
-                <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+            <div className={`${isDownloading ? 'col-span-1 border-r border-slate-200 pr-5' : 'col-span-1 md:border-r md:border-slate-100 md:pr-8 border-b border-slate-100 pb-8 md:border-b-0 md:pb-0'}`}>
+              <section className={isDownloading ? 'mb-4' : 'mb-8'}>
+                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-2 pb-1' : 'text-base mb-4 pb-1.5'}`}>
                   Contact
                 </h3>
-                <div className="space-y-1.5">
+                <div className={isDownloading ? 'space-y-1.5' : 'space-y-3'}>
                   {contactDetails.map((contact, index) => (
                     <div key={index}>
-                      <h4 className="text-[9px] font-bold text-gray-400 uppercase">{contact.type}</h4>
-                      <p className="text-gray-700 text-[10px] break-all">{contact.value}</p>
+                      <h4 className={`font-bold text-slate-400 uppercase tracking-wide ${isDownloading ? 'text-[9px]' : 'text-xs mb-0.5'}`}>{contact.type}</h4>
+                      <p className={`text-slate-700 break-all ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>{contact.value}</p>
                     </div>
                   ))}
                 </div>
               </section>
 
-              <section className="mb-4">
-                <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+              <section className={isDownloading ? 'mb-4' : 'mb-8'}>
+                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-2 pb-1' : 'text-base mb-4 pb-1.5'}`}>
                   Skills
                 </h3>
-                <div className="space-y-2">
+                <div className={isDownloading ? 'space-y-2' : 'space-y-5'}>
                   {technicalSkills.map((skillGroup, index) => (
                     <div key={index}>
-                      <h4 className="text-[10px] font-bold text-gray-800">{skillGroup.category}</h4>
-                      <p className="text-gray-600 text-[9px] leading-tight">{skillGroup.skills}</p>
+                      <h4 className={`font-bold text-slate-800 ${isDownloading ? 'text-[10px]' : 'text-sm mb-1'}`}>{skillGroup.category}</h4>
+                      <p className={`text-slate-600 ${isDownloading ? 'text-[9px] leading-tight' : 'text-sm leading-relaxed'}`}>{skillGroup.skills}</p>
                     </div>
                   ))}
                 </div>
               </section>
 
               <section>
-                <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-2 pb-1' : 'text-base mb-4 pb-1.5'}`}>
                   Education
                 </h3>
                 {education.map((edu, index) => (
-                  <div key={index}>
-                    <h4 className="text-[10px] font-bold text-gray-900">{edu.degree}</h4>
-                    <p className="text-gray-600 text-[9px]">{edu.school}</p>
-                    <p className="text-blue-600 font-medium text-[9px]">{edu.year}</p>
+                  <div key={index} className={isDownloading ? '' : 'mb-4'}>
+                    <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[10px]' : 'text-sm mb-1'}`}>{edu.degree}</h4>
+                    <p className={`text-slate-600 ${isDownloading ? 'text-[9px]' : 'text-sm'}`}>{edu.school}</p>
+                    <p className={`text-blue-600 font-semibold ${isDownloading ? 'text-[9px]' : 'text-sm mt-0.5'}`}>{edu.year}</p>
                   </div>
                 ))}
               </section>
             </div>
 
             {/* Right Column */}
-            <div className={`${isDownloading ? 'col-span-2 pl-1' : 'col-span-1 md:col-span-2 md:pl-1'}`}>
-              <section className="mb-4">
-                <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+            <div className={`${isDownloading ? 'col-span-2 pl-1' : 'col-span-1 md:col-span-2'}`}>
+              <section className={isDownloading ? 'mb-4' : 'mb-10'}>
+                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-3 pb-1' : 'text-lg mb-6 pb-1.5'}`}>
                   Professional Experience
                 </h3>
                 {experience.map((exp, index) => (
-                  <div key={index} className="mb-3 relative pl-3 border-l-2 border-gray-100">
-                    <div className="absolute w-2 h-2 bg-blue-600 rounded-full -left-[5px] top-1.5"></div>
-                    <div className="flex justify-between items-start mb-0.5">
-                      <h4 className="text-[12px] font-bold text-gray-900">{exp.role}</h4>
-                      <span className="text-blue-600 font-semibold text-[9px] bg-blue-50 px-2 py-0.5 rounded whitespace-nowrap ml-2">{exp.period}</span>
+                  <div key={index} className={`relative border-l-2 border-slate-100 ${isDownloading ? 'mb-3 pl-3' : 'mb-8 pl-5'}`}>
+                    <div className={`absolute bg-blue-600 rounded-full ${isDownloading ? 'w-2 h-2 -left-[5px] top-1.5' : 'w-3 h-3 -left-[7px] top-1.5 ring-4 ring-white'}`}></div>
+                    
+                    <div className={`flex justify-between items-center ${isDownloading ? 'mb-0.5' : 'mb-1.5 flex-wrap gap-2'}`}>
+                      <h4 className={`font-bold text-slate-900 leading-none ${isDownloading ? 'text-[12px]' : 'text-lg'}`}>{exp.role}</h4>
+                      <span 
+                        className={`text-blue-600 font-bold bg-blue-50 rounded flex items-center justify-center whitespace-nowrap leading-none ${
+                          isDownloading ? 'text-[9px] px-2.5 h-5 ml-2' : 'text-xs px-3 py-1.5'
+                        }`}
+                      >
+                        {exp.period}
+                      </span>
                     </div>
-                    <p className="text-gray-700 font-semibold text-[10px] mb-1.5">{exp.company}</p>
-                    <ul className="space-y-1">
+                    <p className={`text-slate-700 font-semibold ${isDownloading ? 'text-[10px] mb-1.5' : 'text-sm mb-3'}`}>{exp.company}</p>
+                    <ul className={isDownloading ? 'space-y-1' : 'space-y-2'}>
                       {exp.description.map((point, i) => (
-                        <li key={i} className="text-gray-600 text-[10px] flex items-start leading-tight">
-                          <span className="text-blue-600 mr-1.5 mt-0.5">•</span>
-                          <div className="text-justify">{point}</div>
+                        <li key={i} className={`text-slate-600 flex items-start ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm leading-relaxed'}`}>
+                          <span className={`text-blue-500 mr-2 ${isDownloading ? 'mt-0.5' : 'mt-1'}`}>•</span>
+                          <span>{point}</span>
                         </li>
                       ))}
                     </ul>
@@ -254,23 +274,32 @@ function App() {
               </section>
 
               <section>
-                <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wider border-b-2 border-blue-600 pb-1 inline-block">
+                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-2 pb-1' : 'text-lg mb-6 pb-1.5'}`}>
                   Selected Projects
                 </h3>
-                {projects.map((project, index) => (
-                  <div key={index} className="mb-2 bg-gray-50 p-2.5 rounded-lg border border-gray-100">
-                    <h4 className="text-[12px] font-bold text-gray-900 mb-0.5">{project.title}</h4>
-                    <p className="text-blue-600 text-[8px] font-mono mb-1.5 uppercase tracking-tight">{project.tech}</p>
-                    <ul className="space-y-0.5">
-                      {project.description.map((point, i) => (
-                        <li key={i} className="text-gray-600 text-[10px] flex items-start leading-tight">
-                          <span className="text-blue-400 mr-1.5 mt-0.5">•</span>
-                          <div className="text-justify">{point}</div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+                <div className={isDownloading ? '' : 'grid gap-4'}>
+                  {projects.map((project, index) => (
+                    <div 
+                      key={index} 
+                      className={`bg-slate-50 border border-slate-100 ${
+                        isDownloading 
+                          ? 'mb-2 p-2.5 rounded-lg' 
+                          : 'p-5 rounded-xl hover:shadow-md hover:border-slate-200 transition-all duration-300'
+                      }`}
+                    >
+                      <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[12px] mb-0.5' : 'text-base mb-1'}`}>{project.title}</h4>
+                      <p className={`text-blue-600 font-mono uppercase tracking-tight ${isDownloading ? 'text-[8px] mb-1.5' : 'text-xs mb-3 font-semibold'}`}>{project.tech}</p>
+                      <ul className={isDownloading ? 'space-y-0.5' : 'space-y-1.5'}>
+                        {project.description.map((point, i) => (
+                          <li key={i} className={`text-slate-600 flex items-start ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm leading-relaxed'}`}>
+                            <span className={`text-blue-400 mr-2 ${isDownloading ? 'mt-0.5' : 'mt-1.5 text-xs'}`}>•</span>
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
               </section>
             </div>
 
