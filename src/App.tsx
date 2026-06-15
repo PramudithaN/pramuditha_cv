@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Github, Linkedin, Mail, Download } from "lucide-react";
+import { Download, Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -8,39 +8,29 @@ function App() {
 
   const personalInfo = {
     name: "PRAMUDITHA NADUN",
-    title: "ASSOCIATE SOFTWARE ENGINEER",
+    title: "ASSOCIATE SOFTWARE ENGINEER & UI/UX SPECIALIST",
     intro:
       "Associate Software Engineer with 5 years of combined academic and professional experience building scalable applications, highly interactive frontends, and robust backend systems. Specializing in React, TypeScript, and Spring Boot, with a strong foundation in UI/UX and visual design. Adept at bridging the gap between technical architecture and modern user experience, utilizing CI/CD pipelines to ensure seamless deployments. Proven experience in developing complex, data-driven architectures, distributed asynchronous systems, and predictive modeling algorithms.",
-    image: "https://avatars.githubusercontent.com/u/79605208?v=4",
     email: "pramudithanadun@gmail.com",
     github: "github.com/PramudithaN",
-    githubUsername: "PramudithaN",
     linkedin: "linkedin.com/in/pramuditha-nadun-612b1b204",
     phone: "+94-713-052-556",
-    address: "63/9,Gallage Mawatha, Mirihana, Nugegoda, Sri Lanka",
+    address: "Nugegoda, Sri Lanka",
   };
 
-  const contactDetails = [
-    { type: "Phone", value: personalInfo.phone },
-    { type: "Email", value: personalInfo.email },
-    { type: "GitHub", value: personalInfo.github },
-    { type: "LinkedIn", value: personalInfo.linkedin },
-    { type: "Address", value: personalInfo.address },
-  ];
-
-  const education = [
-    {
-      degree: "BSc (Hons) Software Engineering",
-      school: "University of Westminster, UK",
-      year: "Feb 2022 - 2026",
-    },
+  const technicalSkills = [
+    { category: "Frontend", skills: "React, TypeScript, JavaScript, React Hooks & Forms, Redux, Ant Design (AntD), HTML, CSS" },
+    { category: "Backend & Databases", skills: "Spring Boot, Java, FastAPI, Python, PostgreSQL, Oracle Forms, Jasper Reports" },
+    { category: "DevOps & Infrastructure", skills: "Docker, Git (commands & tagging), Jenkins, ArgoCD, Celery, Redis, AWS S3 / MinIO" },
+    { category: "Design & UI/UX", skills: "Figma, Wireframing, Adobe Creative Suite (Photoshop, Illustrator, Premiere Pro, After Effects)" },
+    { category: "Data & Analytics", skills: "XGBoost, GRU, ARIMA, Variational Mode Decomposition (VMD), FinBERT" },
   ];
 
   const experience = [
     {
       role: "Associate Software Engineer (Fusion X Team)",
       company: "LOLC Technologies",
-      period: "2024 - Present",
+      period: "Hybrid | 2024 – Present",
       description: [
         "Develop and maintain enterprise-scale web applications using React and TypeScript, leveraging Redux for state management and Ant Design for modern, responsive UI components.",
         "Architect and optimize backend functionalities using Spring Boot, ensuring efficient data processing, secure user access control, and precise screen permissions.",
@@ -51,7 +41,7 @@ function App() {
     {
       role: "Trainee Software Engineer (Fusion Team)",
       company: "LOLC Technologies",
-      period: "Mar 2022 - Oct 2024",
+      period: "Hybrid | Mar 2022 – Oct 2024",
       description: [
         "Engineered interactive frontend components and responsive layouts, collaborating with cross-functional teams to translate business requirements into functional software solutions.",
         "Maintained and developed backend processes and reporting systems using Java and Oracle Forms.",
@@ -69,6 +59,7 @@ function App() {
         "Architected a distributed full-stack platform that simultaneously translates and synthesizes speech into 17+ languages utilizing the ElevenLabs, DeepL, and Google APIs.",
         "Orchestrated asynchronous background task processing using Celery and Redis to handle heavy text-to-speech workloads, providing users with real-time progress tracking.",
         "Engineered a SHA-256 content-addressed caching mechanism and integrated scalable object storage (MinIO/AWS S3) to significantly minimize external API costs and reduce response latency.",
+        "Containerized the complete application infrastructure including the API, workers, cache, and database using Docker Compose for streamlined deployment.",
       ],
     },
     {
@@ -82,12 +73,12 @@ function App() {
     },
   ];
 
-  const technicalSkills = [
-    { category: "Frontend", skills: "React, TypeScript, JavaScript, React Hooks & Forms, Redux, Ant Design (AntD), HTML, CSS" },
-    { category: "Backend & Databases", skills: "Spring Boot, Java, FastAPI, Python, PostgreSQL, Oracle Forms, Jasper Reports" },
-    { category: "DevOps & Infrastructure", skills: "Docker, Git, Jenkins, ArgoCD, Celery, Redis, AWS S3 / MinIO" },
-    { category: "Design & UI/UX", skills: "Figma, Wireframing, Adobe Creative Suite" },
-    { category: "Data & Analytics", skills: "XGBoost, GRU, ARIMA, Variational Mode Decomposition (VMD), FinBERT" },
+  const education = [
+    {
+      degree: "BSc (Hons) Software Engineering",
+      school: "University of Westminster, UK",
+      year: "Feb 2022 – 2026",
+    },
   ];
 
   const handleDownloadPDF = () => {
@@ -120,10 +111,9 @@ function App() {
   };
 
   return (
-    // Softer background for modern web feel
     <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 md:py-12 flex flex-col items-center overflow-auto font-sans text-slate-800">
       
-      {/* Modernized Download Button */}
+      {/* Download Button */}
       <button
         onClick={handleDownloadPDF}
         disabled={isDownloading}
@@ -133,177 +123,154 @@ function App() {
             : 'bg-blue-600 hover:bg-blue-700 hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95'
         }`}
       >
-        {isDownloading ? (
-          "Generating PDF..."
-        ) : (
-          <>
-            <Download className="w-5 h-5 mr-2" />
-            Download CV as PDF
-          </>
-        )}
+        {isDownloading ? "Generating PDF..." : <><Download className="w-5 h-5 mr-2" /> Download CV as PDF</>}
       </button>
 
-      {/* Main Container */}
+      {/* Main Single-Column Container */}
       <div 
         id="resume-content" 
         className={`bg-white box-border shrink-0 transition-all duration-300 ${
           isDownloading 
             ? 'overflow-hidden rounded-none shadow-none' 
-            : 'overflow-hidden rounded-2xl shadow-xl border border-slate-100/50'
+            : 'overflow-hidden rounded-2xl shadow-xl border border-slate-200'
         }`}
-        style={isDownloading ? { width: '816px', height: '1056px' } : { width: '100%', maxWidth: '900px' }}
+        style={isDownloading ? { width: '816px', height: '1056px' } : { width: '100%', maxWidth: '850px' }}
       >
-        <div className={`${isDownloading ? 'p-6' : 'p-8 sm:p-10 md:p-12'} h-full flex flex-col`}>
+        {/* Adjusted padding: extremely tight for PDF to fit 1 page, generous for Web */}
+        <div className={`${isDownloading ? 'px-10 py-8' : 'p-8 sm:p-10 md:p-12'} h-full flex flex-col`}>
           
           {/* Header Section */}
-          <div className={`flex shrink-0 ${isDownloading ? 'mb-4 border-b pb-3 items-center flex-row text-left' : 'mb-8 md:mb-10 border-b border-slate-100 pb-8 flex-col md:flex-row items-center text-center md:text-left'}`}>
-            <img
-              src={personalInfo.image}
-              alt={personalInfo.name}
-              className={`rounded-full object-cover border-2 border-slate-100 shadow-sm ${
-                isDownloading ? 'w-20 h-20 mr-5 mb-0' : 'w-32 h-32 mb-5 md:w-28 md:h-28 md:mb-0 md:mr-8'
-              }`}
-            />
-            <div>
-              <h1 className={`font-bold text-slate-900 tracking-tight ${isDownloading ? 'text-2xl' : 'text-3xl md:text-4xl'}`}>
-                {personalInfo.name}
-              </h1>
-              <h2 className={`font-semibold text-blue-600 ${isDownloading ? 'text-base mb-1' : 'text-lg md:text-xl mb-3 mt-1'}`}>
-                {personalInfo.title}
-              </h2>
-              <p className={`text-slate-600 max-w-2xl ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base leading-relaxed'}`}>
-                {personalInfo.intro}
-              </p>
-
-              {/* Social Links */}
-              <div className={`flex items-center flex-wrap gap-y-2 ${isDownloading ? 'space-x-4 mt-2 justify-start' : 'gap-x-4 sm:gap-x-6 mt-5 justify-center md:justify-start'}`}>
-                <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className={`flex items-center leading-none text-slate-500 hover:text-blue-600 transition-colors ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>
-                  <Github className={`${isDownloading ? 'w-3 h-3 mr-1 shrink-0' : 'w-4 h-4 mr-2'}`} /> 
-                  <span className={isDownloading ? "-mt-[1px]" : ""}>{personalInfo.githubUsername}</span>
-                </a>
-                <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className={`flex items-center leading-none text-slate-500 hover:text-blue-600 transition-colors ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>
-                  <Linkedin className={`${isDownloading ? 'w-3 h-3 mr-1 shrink-0' : 'w-4 h-4 mr-2'}`} /> 
-                  <span className={isDownloading ? "-mt-[1px]" : ""}>LinkedIn</span>
-                </a>
-                <a href={`mailto:${personalInfo.email}`} className={`flex items-center leading-none text-slate-500 hover:text-blue-600 transition-colors ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>
-                  <Mail className={`${isDownloading ? 'w-3 h-3 mr-1 shrink-0' : 'w-4 h-4 mr-2'}`} /> 
-                  <span className={isDownloading ? "-mt-[1px]" : ""}>{personalInfo.email}</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Main Content Grid */}
-          <div className={`grid flex-grow ${isDownloading ? 'gap-6 grid-cols-3' : 'gap-8 md:gap-10 grid-cols-1 md:grid-cols-3'}`}>
+          <div className={`text-center ${isDownloading ? 'mb-4' : 'mb-8'}`}>
+            <h1 className={`font-bold text-slate-900 tracking-tight uppercase ${isDownloading ? 'text-3xl mb-1' : 'text-3xl md:text-4xl mb-2'}`}>
+              {personalInfo.name}
+            </h1>
             
-            {/* Left Column */}
-            <div className={`${isDownloading ? 'col-span-1 border-r border-slate-200 pr-5' : 'col-span-1 md:border-r md:border-slate-100 md:pr-8 border-b border-slate-100 pb-8 md:border-b-0 md:pb-0'}`}>
-              <section className={isDownloading ? 'mb-4' : 'mb-8'}>
-                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-2 pb-1' : 'text-base mb-4 pb-1.5'}`}>
-                  Contact
-                </h3>
-                <div className={isDownloading ? 'space-y-1.5' : 'space-y-3'}>
-                  {contactDetails.map((contact, index) => (
-                    <div key={index}>
-                      <h4 className={`font-bold text-slate-400 uppercase tracking-wide ${isDownloading ? 'text-[9px]' : 'text-xs mb-0.5'}`}>{contact.type}</h4>
-                      <p className={`text-slate-700 break-all ${isDownloading ? 'text-[10px]' : 'text-sm font-medium'}`}>{contact.value}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <section className={isDownloading ? 'mb-4' : 'mb-8'}>
-                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-2 pb-1' : 'text-base mb-4 pb-1.5'}`}>
-                  Skills
-                </h3>
-                <div className={isDownloading ? 'space-y-2' : 'space-y-5'}>
-                  {technicalSkills.map((skillGroup, index) => (
-                    <div key={index}>
-                      <h4 className={`font-bold text-slate-800 ${isDownloading ? 'text-[10px]' : 'text-sm mb-1'}`}>{skillGroup.category}</h4>
-                      <p className={`text-slate-600 ${isDownloading ? 'text-[9px] leading-tight' : 'text-sm leading-relaxed'}`}>{skillGroup.skills}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <section>
-                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-2 pb-1' : 'text-base mb-4 pb-1.5'}`}>
-                  Education
-                </h3>
-                {education.map((edu, index) => (
-                  <div key={index} className={isDownloading ? '' : 'mb-4'}>
-                    <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[10px]' : 'text-sm mb-1'}`}>{edu.degree}</h4>
-                    <p className={`text-slate-600 ${isDownloading ? 'text-[9px]' : 'text-sm'}`}>{edu.school}</p>
-                    <p className={`text-blue-600 font-semibold ${isDownloading ? 'text-[9px]' : 'text-sm mt-0.5'}`}>{edu.year}</p>
-                  </div>
-                ))}
-              </section>
+            {/* Contact Info Row */}
+            <div className={`flex flex-wrap justify-center items-center text-slate-600 ${isDownloading ? 'text-[10px] gap-1.5 mb-1.5' : 'text-sm gap-2 sm:gap-3 mb-3'}`}>
+              <span className="flex items-center"><MapPin className={isDownloading ? 'w-3 h-3 mr-0.5' : 'w-4 h-4 mr-1'} />{personalInfo.address}</span>
+              <span className="hidden sm:inline">|</span>
+              <span className="flex items-center"><Phone className={isDownloading ? 'w-3 h-3 mr-0.5' : 'w-4 h-4 mr-1'} />{personalInfo.phone}</span>
+              <span className="hidden sm:inline">|</span>
+              <a href={`mailto:${personalInfo.email}`} className="flex items-center hover:text-blue-600">
+                <Mail className={isDownloading ? 'w-3 h-3 mr-0.5' : 'w-4 h-4 mr-1'} />{personalInfo.email}
+              </a>
+            </div>
+            
+            {/* Links Row */}
+            <div className={`flex flex-wrap justify-center items-center text-slate-600 ${isDownloading ? 'text-[10px] gap-1.5 mb-2' : 'text-sm gap-2 sm:gap-3 mb-4'}`}>
+              <a href={`https://${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className="flex items-center hover:text-blue-600">
+                <Github className={isDownloading ? 'w-3 h-3 mr-0.5' : 'w-4 h-4 mr-1'} />{personalInfo.github}
+              </a>
+              <span className="hidden sm:inline">|</span>
+              <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center hover:text-blue-600">
+                <Linkedin className={isDownloading ? 'w-3 h-3 mr-0.5' : 'w-4 h-4 mr-1'} />{personalInfo.linkedin}
+              </a>
             </div>
 
-            {/* Right Column */}
-            <div className={`${isDownloading ? 'col-span-2 pl-1' : 'col-span-1 md:col-span-2'}`}>
-              <section className={isDownloading ? 'mb-4' : 'mb-10'}>
-                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-3 pb-1' : 'text-lg mb-6 pb-1.5'}`}>
-                  Professional Experience
-                </h3>
-                {experience.map((exp, index) => (
-                  <div key={index} className={`relative border-l-2 border-slate-100 ${isDownloading ? 'mb-3 pl-3' : 'mb-8 pl-5'}`}>
-                    <div className={`absolute bg-blue-600 rounded-full ${isDownloading ? 'w-2 h-2 -left-[5px] top-1.5' : 'w-3 h-3 -left-[7px] top-1.5 ring-4 ring-white'}`}></div>
-                    
-                    <div className={`flex justify-between items-center ${isDownloading ? 'mb-0.5' : 'mb-1.5 flex-wrap gap-2'}`}>
-                      <h4 className={`font-bold text-slate-900 leading-none ${isDownloading ? 'text-[12px]' : 'text-lg'}`}>{exp.role}</h4>
-                      <span 
-                        className={`text-blue-600 font-bold bg-blue-50 rounded flex items-center justify-center whitespace-nowrap leading-none ${
-                          isDownloading ? 'text-[9px] px-2.5 h-5 ml-2' : 'text-xs px-3 py-1.5'
-                        }`}
-                      >
-                        {exp.period}
-                      </span>
-                    </div>
-                    <p className={`text-slate-700 font-semibold ${isDownloading ? 'text-[10px] mb-1.5' : 'text-sm mb-3'}`}>{exp.company}</p>
-                    <ul className={isDownloading ? 'space-y-1' : 'space-y-2'}>
-                      {exp.description.map((point, i) => (
-                        <li key={i} className={`text-slate-600 flex items-start ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm leading-relaxed'}`}>
-                          <span className={`text-blue-500 mr-2 ${isDownloading ? 'mt-0.5' : 'mt-1'}`}>•</span>
-                          <span>{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </section>
-
-              <section>
-                <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b-2 border-blue-500 inline-block ${isDownloading ? 'text-sm mb-2 pb-1' : 'text-lg mb-6 pb-1.5'}`}>
-                  Selected Projects
-                </h3>
-                <div className={isDownloading ? '' : 'grid gap-4'}>
-                  {projects.map((project, index) => (
-                    <div 
-                      key={index} 
-                      className={`bg-slate-50 border border-slate-100 ${
-                        isDownloading 
-                          ? 'mb-2 p-2.5 rounded-lg' 
-                          : 'p-5 rounded-xl hover:shadow-md hover:border-slate-200 transition-all duration-300'
-                      }`}
-                    >
-                      <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[12px] mb-0.5' : 'text-base mb-1'}`}>{project.title}</h4>
-                      <p className={`text-blue-600 font-mono uppercase tracking-tight ${isDownloading ? 'text-[8px] mb-1.5' : 'text-xs mb-3 font-semibold'}`}>{project.tech}</p>
-                      <ul className={isDownloading ? 'space-y-0.5' : 'space-y-1.5'}>
-                        {project.description.map((point, i) => (
-                          <li key={i} className={`text-slate-600 flex items-start ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm leading-relaxed'}`}>
-                            <span className={`text-blue-400 mr-2 ${isDownloading ? 'mt-0.5' : 'mt-1.5 text-xs'}`}>•</span>
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </div>
-
+            <h2 className={`font-bold text-slate-900 uppercase tracking-wide ${isDownloading ? 'text-[12px] border-b border-slate-300 pb-2' : 'text-base md:text-lg border-b-2 border-slate-100 pb-4'}`}>
+              {personalInfo.title}
+            </h2>
           </div>
+
+          {/* Section: Professional Summary */}
+          <section className={isDownloading ? 'mb-3' : 'mb-8'}>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider ${isDownloading ? 'text-[11px] mb-1' : 'text-sm md:text-base mb-3'}`}>
+              Professional Summary
+            </h3>
+            <p className={`text-slate-700 text-justify ${isDownloading ? 'text-[10px] leading-snug' : 'text-sm md:text-base leading-relaxed'}`}>
+              {personalInfo.intro}
+            </p>
+          </section>
+
+          {/* Section: Technical Skills */}
+          <section className={isDownloading ? 'mb-3' : 'mb-8'}>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
+              Technical Skills
+            </h3>
+            <ul className={isDownloading ? 'space-y-0.5' : 'space-y-2'}>
+              {technicalSkills.map((skill, index) => (
+                <li key={index} className={`text-slate-700 flex items-start ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base'}`}>
+                  <span className={`mr-1.5 ${isDownloading ? 'mt-[1px]' : 'mt-1'}`}>•</span>
+                  <span>
+                    <strong className="font-bold text-slate-900">{skill.category}:</strong> {skill.skills}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Section: Professional Experience */}
+          <section className={isDownloading ? 'mb-3' : 'mb-8'}>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
+              Professional Experience
+            </h3>
+            <div className={isDownloading ? 'space-y-3' : 'space-y-6'}>
+              {experience.map((exp, index) => (
+                <div key={index}>
+                  <div className={`flex flex-col sm:flex-row sm:justify-between sm:items-end ${isDownloading ? 'mb-1' : 'mb-2'}`}>
+                    <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[11px]' : 'text-base md:text-lg'}`}>
+                      {exp.company} <span className="font-normal mx-1">|</span> {exp.role}
+                    </h4>
+                  </div>
+                  <p className={`italic text-slate-600 ${isDownloading ? 'text-[10px] mb-1' : 'text-sm mb-3 font-medium'}`}>
+                    {exp.period}
+                  </p>
+                  <ul className={isDownloading ? 'space-y-0.5' : 'space-y-2'}>
+                    {exp.description.map((point, i) => (
+                      <li key={i} className={`text-slate-700 flex items-start ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base leading-relaxed'}`}>
+                        <span className={`mr-1.5 ${isDownloading ? 'mt-[1px]' : 'mt-1.5 text-[10px]'}`}>•</span>
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Section: Selected Projects & Research */}
+          <section className={isDownloading ? 'mb-3' : 'mb-8'}>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-2 pb-0.5' : 'text-sm md:text-base mb-5 pb-1 border-b-2'}`}>
+              Selected Projects & Research
+            </h3>
+            <div className={isDownloading ? 'space-y-3' : 'space-y-6'}>
+              {projects.map((project, index) => (
+                <div key={index}>
+                  <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[11px] mb-1' : 'text-base md:text-lg mb-2'}`}>
+                    {project.title} <span className="font-normal mx-1">|</span> <span className="italic font-normal">{project.tech}</span>
+                  </h4>
+                  <ul className={isDownloading ? 'space-y-0.5' : 'space-y-2'}>
+                    {project.description.map((point, i) => (
+                      <li key={i} className={`text-slate-700 flex items-start ${isDownloading ? 'text-[10px] leading-tight' : 'text-sm md:text-base leading-relaxed'}`}>
+                        <span className={`mr-1.5 ${isDownloading ? 'mt-[1px]' : 'mt-1.5 text-[10px]'}`}>•</span>
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Section: Education */}
+          <section>
+            <h3 className={`font-bold text-slate-900 uppercase tracking-wider border-b border-slate-300 ${isDownloading ? 'text-[11px] mb-1.5 pb-0.5' : 'text-sm md:text-base mb-4 pb-1 border-b-2'}`}>
+              Education
+            </h3>
+            {education.map((edu, index) => (
+              <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
+                <div>
+                  <h4 className={`font-bold text-slate-900 ${isDownloading ? 'text-[11px]' : 'text-base'}`}>
+                    {edu.degree}
+                  </h4>
+                  <p className={`text-slate-700 ${isDownloading ? 'text-[10px] mt-0.5' : 'text-sm mt-1'}`}>
+                    {edu.school} <span className="mx-1">|</span> {edu.year}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </section>
+
         </div>
       </div>
     </div>
